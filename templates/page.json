@@ -12,32 +12,24 @@
       "blocks": {
         "column_AXAU4h": {
           "type": "column",
+          "repeater": "{{ page.metafields.custom.meet_the_team.value }}",
           "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_FVzDmJ": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "image": "{{ block.repeater.photo.value }}",
+            "title": "{{ block.repeater.name.value }}",
+            "text": "<p>{{ block.repeater.bio | metafield_tag }}<\/p>",
             "link_label": "",
             "link": ""
           }
         }
       },
       "block_order": [
-        "column_AXAU4h",
-        "column_FVzDmJ"
+        "column_AXAU4h"
       ],
       "settings": {
         "title": "Multicolumn",
         "heading_size": "h1",
         "image_width": "full",
-        "image_ratio": "adapt",
+        "image_ratio": "circle",
         "columns_desktop": 2,
         "column_alignment": "left",
         "background_style": "primary",
