@@ -1,5 +1,36 @@
 {{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
 
+<style>
+  .form-required-notice {
+    color: #d82c0d;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .required-asterisk {
+    color: #d82c0d;
+    margin-left: 0.2rem;
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .checkbox-group__label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+</style>
+
 <!-- sections/client-intake-form.liquid -->
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="contact page-width page-width--narrow">
