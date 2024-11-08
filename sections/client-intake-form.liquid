@@ -1,7 +1,7 @@
 {{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
 
 <!-- Add this CSS to section-contact-form.css -->
-<style>
+{% comment %} <style>
   .checkbox-field {
     display: flex;
     align-items: flex-start;
@@ -21,7 +21,7 @@
   .checkbox-label a {
     text-decoration: underline;
   }
-</style>
+</style> {% endcomment %}
 
 <!-- sections/client-intake-form.liquid -->
 <div class="color-{{ section.settings.color_scheme }} gradient">
