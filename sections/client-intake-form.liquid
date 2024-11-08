@@ -258,27 +258,36 @@
       </div>
     </div>
 
+    <div class="field checkbox-field">
+      <input
+        type="checkbox"
+        id="AcceptTerms"
+        name="customer[accepts_terms]"
+        class="field__checkbox"
+        required
+        aria-required="true"
+      >
+      <label class="field__label checkbox-label" for="AcceptTerms">
+        I agree to the <a href="{{ shop.terms_of_service_url }}" target="_blank">Terms and Conditions</a> and
+        <a href="{{ shop.privacy_policy_url }}" target="_blank">Privacy Policy</a
+        ><span class="required-asterisk">*</span>
+      </label>
+    </div>
+
+    <div class="field checkbox-field">
+      <input
+        type="checkbox"
+        id="AcceptMarketing"
+        name="customer[accepts_marketing]"
+        class="field__checkbox"
+      >
+      <label class="field__label checkbox-label" for="AcceptMarketing">
+        I would like to receive marketing communications about products, services and promotions
+      </label>
+    </div>
+
     <div class="contact__button">
       <button type="submit" class="button">Create Account</button>
     </div>
-
-    <script>
-      document.getElementById('ClientIntakeForm').addEventListener('submit', function (e) {
-        const checkboxes = document.getElementsByClassName('meal-type-checkbox');
-        let checked = false;
-
-        for (let checkbox of checkboxes) {
-          if (checkbox.checked) {
-            checked = true;
-            break;
-          }
-        }
-
-        if (!checked) {
-          e.preventDefault();
-          alert('Please select at least one meal type');
-        }
-      });
-    </script>
   {%- endform -%}
 </div>
