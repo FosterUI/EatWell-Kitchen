@@ -138,6 +138,33 @@
       {% endpaginate %}
     </div>
 
+    {%- comment -%}main-account.liquid - Order Details Section{%- endcomment -%}
+    <div class="order-details">
+      {% if order.metafields.meal_prep.menu %}
+        <div class="menu-status">
+          <h3>Your Custom Menu</h3>
+          {{ order.metafields.meal_prep.menu | newline_to_br }}
+
+          {% unless order.tags contains 'menu-approved' %}
+            <form method="post" action="/apps/menu-approval">
+              {{ order.id | hidden_field_tag: 'order_id' }}
+              <button type="submit" class="button">Approve Menu</button>
+            </form>
+          {% endunless %}
+        </div>
+      {% endif %}
+
+      <div class="intake-details">
+        <h3>Intake Form Details</h3>
+        {% for property in order.properties %}
+          <div class="property-item">
+            <strong>{{ property.first }}:</strong>
+            {{ property.last }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
     <div>
       <h2>{{ 'customer.account.details' | t }}</h2>
 
