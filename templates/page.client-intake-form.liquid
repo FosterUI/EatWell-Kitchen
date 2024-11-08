@@ -257,87 +257,97 @@
 </div>
 
 <script>
-document.querySelector('.form').addEventListener('submit', async function(e) {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('.form');
   
-  const form = this;
-  const submitButton = form.querySelector('#submitButton');
-  const buttonText = submitButton.querySelector('.button-text');
-  const buttonLoading = submitButton.querySelector('.button-loading');
-  
-  // Validate required fields
-  const requiredFields = form.querySelectorAll('[required]');
-  let isValid = true;
-  
-  requiredFields.forEach(field => {
-    if (!field.value.trim()) {
-      isValid = false;
-      field.classList.add('error');
-    } else {
-      field.classList.remove('error');
+  // Initialize fields to prevent "null" display
+  const initializeField = (fieldName) => {
+    const field = form.querySelector(`[name="customer[note][${fieldName}]"]`);
+    if (field) {
+      try {
+        const noteData = {{ customer.note | json }};
+        field.value = noteData?.[fieldName] || '';
+      } catch (e) {
+        field.value = '';
+      }
     }
-  });
-  
-  if (!isValid) {
-    alert('Please fill in all required fields');
-    return;
-  }
+  };
 
-  try {
-    // Show loading state
-    submitButton.disabled = true;
-    buttonText.classList.add('hidden');
-    buttonLoading.classList.remove('hidden');
+  ['address', 'allergies', 'dietary'].forEach(initializeField);
 
-    // Prepare customer note data
-    const noteData = {
-      address: form.querySelector('[name="customer[note][address]"]').value,
-      allergies: form.querySelector('[name="customer[note][allergies]"]').value,
-      dietary: form.querySelector('[name="customer[note][dietary]"]').value,
-      meal_types: Array.from(form.querySelectorAll('[name="customer[note][meal_types][]"]:checked')).map(cb => cb.value),
-      frequency: form.querySelector('[name="customer[note][frequency]"]').value,
-      updated_at: new Date().toISOString()
-    };
-
-    // Create hidden input for note
-    const noteInput = document.createElement('input');
-    noteInput.type = 'hidden';
-    noteInput.name = 'customer[note]';
-    noteInput.value = JSON.stringify(noteData);
-    form.appendChild(noteInput);
-
-    // Submit form
-    const formData = new FormData(form);
-    const response = await fetch(window.location.pathname, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Clear previous errors
+    form.querySelectorAll('.error-message').forEach(el => el.remove());
+    form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+    
+    // Validate required fields
+    const requiredFields = form.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+      if (!field.value.trim()) {
+        isValid = false;
+        field.classList.add('error');
+        
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = `${field.labels[0].textContent.trim().replace(' *', '')} is required`;
+        field.parentNode.appendChild(errorMessage);
       }
     });
 
-    if (!response.ok) throw new Error('Submission failed');
+    if (!isValid) {
+      form.querySelector('.error').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
 
-    // Show success message
-    const successMessage = document.createElement('div');
-    successMessage.className = 'form__success';
-    successMessage.innerHTML = `{% render 'icon-success' %} {{ 'customer.intake_form.profile_updated' | t }}`;
-    form.insertBefore(successMessage, form.firstChild);
+    const submitButton = form.querySelector('#submitButton');
+    const buttonText = submitButton.querySelector('.button-text');
+    const buttonLoading = submitButton.querySelector('.button-loading');
 
-    // Scroll to success message
-    successMessage.scrollIntoView({ behavior: 'smooth' });
+    try {
+      submitButton.disabled = true;
+      buttonText.classList.add('hidden');
+      buttonLoading.classList.remove('hidden');
 
-    // Reset form state
-    form.reset();
+      // Prepare note data
+      const noteData = {
+        address: form.querySelector('[name="customer[note][address]"]').value || '',
+        allergies: form.querySelector('[name="customer[note][allergies]"]').value || '',
+        dietary: form.querySelector('[name="customer[note][dietary]"]').value || '',
+        meal_types: Array.from(form.querySelectorAll('[name="customer[note][meal_types][]"]:checked')).map(cb => cb.value),
+        frequency: form.querySelector('[name="customer[note][frequency]"]').value || '',
+        updated_at: new Date().toISOString()
+      };
 
-  } catch (error) {
-    console.error('Form submission error:', error);
-    alert('{{ "customer.intake_form.error_message" | t }}');
-  } finally {
-    // Restore button state
-    submitButton.disabled = false;
-    buttonText.classList.remove('hidden');
-    buttonLoading.classList.add('hidden');
-  }
+      // Add hidden note input
+      let noteInput = form.querySelector('input[name="customer[note]"]');
+      if (!noteInput) {
+        noteInput = document.createElement('input');
+        noteInput.type = 'hidden';
+        noteInput.name = 'customer[note]';
+        form.appendChild(noteInput);
+      }
+      noteInput.value = JSON.stringify(noteData);
+
+      // Submit form
+      form.submit();
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'form__message';
+      errorMessage.setAttribute('role', 'alert');
+      errorMessage.innerHTML = `{% render 'icon-error' %} {{ 'customer.intake_form.error_message' | t }}`;
+      form.insertBefore(errorMessage, form.firstChild);
+      
+      submitButton.disabled = false;
+      buttonText.classList.remove('hidden');
+      buttonLoading.classList.add('hidden');
+    }
+  });
 });
 </script>
