@@ -1,373 +1,263 @@
 {{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
 
-<style>
-  .form-required-notice {
-    color: #d82c0d;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-  }
+<div class="page-width page-width--narrow">
+  <h1 class="title title-wrapper--no-top-margin">{{ page.title }}</h1>
+  <p class="form-required-notice">* Required fields</p>
 
-  .required-asterisk {
-    color: #d82c0d;
-    margin-left: 0.2rem;
-  }
-
-  .checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .checkbox-group__label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-  .checkbox-option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-</style>
-
-<!-- sections/client-intake-form.liquid -->
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="contact page-width page-width--narrow">
-    <h1 class="title title-wrapper--no-top-margin">{{ page.title }}</h1>
-
-    <p class="form-required-notice">* Required fields</p>
-
-    {%- form 'contact', id: 'ClientIntakeForm', class: 'isolate' -%}
-      {%- if form.posted_successfully? -%}
-        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
-          {% render 'icon-success' %}
-          {{ 'templates.contact.form.post_success' | t }}
+  {%- form 'contact', id: 'ClientIntakeForm', class: 'isolate' -%}
+    {%- if form.posted_successfully? -%}
+      <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+        {% render 'icon-success' %}
+        {{ 'templates.contact.form.post_success' | t }}
+      </h2>
+    {%- elsif form.errors -%}
+      <div class="form__message">
+        <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+          {% render 'icon-error' %}
+          {{ 'templates.contact.form.error_heading' | t }}
         </h2>
-      {%- elsif form.errors -%}
-        <div class="form__message">
-          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
-            {% render 'icon-error' %}
-            {{ 'templates.contact.form.error_heading' | t }}
-          </h2>
-        </div>
-      {%- endif -%}
-
-      <div class="contact__fields">
-        <div class="contact__fields">
-          <div class="field">
-            <input
-              class="field__input"
-              type="text"
-              id="FirstName"
-              name="contact[first_name]"
-              value="{% if form.first_name %}{{ form.first_name }}{% endif %}"
-              placeholder="First Name"
-              required
-            >
-            <label class="field__label" for="FirstName">First Name<span class="required-asterisk">*</span></label>
-          </div>
-
-          <div class="field">
-            <input
-              class="field__input"
-              type="text"
-              id="LastName"
-              name="contact[last_name]"
-              value="{% if form.last_name %}{{ form.last_name }}{% endif %}"
-              placeholder="Last Name"
-              required
-            >
-            <label class="field__label" for="LastName">Last Name<span class="required-asterisk">*</span></label>
-          </div>
-        </div>
-
-        <div class="field field--with-error">
-          <!-- Email Fields -->
-          <input
-            type="email"
-            id="ClientEmail"
-            class="field__input"
-            name="contact[email]"
-            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-            spellcheck="false"
-            autocapitalize="off"
-            required
-            aria-required="true"
-            placeholder="Email Address"
-          >
-          <label class="field__label" for="ClientEmail">Email Address<span class="required-asterisk">*</span></label>
-        </div>
-
-        <div class="field">
-          <!-- Phone Fields -->
-          <input
-            type="tel"
-            id="ClientPhone"
-            class="field__input"
-            name="contact[phone]"
-            value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-            pattern="[0-9\-]*"
-            placeholder="Phone Number"
-          >
-          <label class="field__label" for="ClientPhone">Phone Number<span class="required-asterisk">*</span></label>
-        </div>
-
-        <div class="contact__fields">
-          <!-- Address Fields -->
-          <div class="field">
-            <input
-              class="field__input"
-              type="text"
-              id="Address"
-              name="contact[address]"
-              required
-              placeholder="Street Address"
-            >
-            <label class="field__label" for="Address">Street Address<span class="required-asterisk">*</span></label>
-          </div>
-
-          <div class="field">
-            <input
-              class="field__input"
-              type="text"
-              id="City"
-              name="contact[city]"
-              required
-              placeholder="City"
-            >
-            <label class="field__label" for="City">City<span class="required-asterisk">*</span></label>
-          </div>
-
-          <div class="field">
-            <input
-              class="field__input"
-              type="text"
-              id="State"
-              name="contact[state]"
-              required
-              placeholder="State"
-            >
-            <label class="field__label" for="State">State<span class="required-asterisk">*</span></label>
-          </div>
-
-          <div class="field">
-            <input
-              class="field__input"
-              type="text"
-              id="Zipcode"
-              name="contact[zipcode]"
-              pattern="[0-9]*"
-              required
-              placeholder="Zipcode"
-            >
-            <label class="field__label" for="Zipcode">Zipcode<span class="required-asterisk">*</span></label>
-          </div>
-
-          <!-- Dietary Information -->
-          <div class="field">
-            <textarea
-              rows="3"
-              id="Allergies"
-              class="text-area field__input"
-              name="contact[allergies]"
-              required
-              placeholder="List any food allergies"
-            ></textarea>
-            <label class="field__label" for="Allergies">Food Allergies<span class="required-asterisk">*</span></label>
-          </div>
-
-          <div class="field">
-            <textarea
-              rows="3"
-              id="DietaryRestrictions"
-              class="text-area field__input"
-              name="contact[dietary_restrictions]"
-              required
-              placeholder="List any dietary restrictions"
-            ></textarea>
-            <label class="field__label" for="DietaryRestrictions"
-              >Dietary Restrictions<span class="required-asterisk">*</span></label
-            >
-          </div>
-
-          <!-- Select the number of days for the meal plan -->
-          <div class="field">
-            <select class="field__input field__select" id="MealDays" name="contact[meal_days]" required>
-              <option value="">Select Number of Days</option>
-              <option value="5">5 Days</option>
-              <option value="7">7 Days</option>
-              <option value="10">10 Days</option>
-              <option value="30">30 Days</option>
-            </select>
-            <label class="field__label" for="MealDays" />Meal Plan Duration<span class="required-asterisk">*</span>
-          </div>
-
-          <!-- Meal Types -->
-          <div class="field">
-          <!-- Section for selecting meal types (Breakfast, Lunch, Dinner, Snack) -->
-              <label class="checkbox-group__label" id="MealTypesLabel" />
-                Meal Types<span class="required-asterisk">*</span>
-
-              <div class="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="MealTypeBreakfast"
-                  name="contact[meal_types][]"
-                  value="breakfast"
-                  required
-                  aria-labelledby="MealTypesLabel"
-                >
-                <label for="MealTypeBreakfast">Breakfast</label />
-              </div>
-
-              <div class="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="MealTypeLunch"
-                  name="contact[meal_types][]"
-                  value="lunch"
-                  required
-                  aria-labelledby="MealTypesLabel"
-                >
-                <label for="MealTypeLunch">Lunch</label />
-              </div>
-
-              <div class="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="MealTypeDinner"
-                  name="contact[meal_types][]"
-                  value="dinner"
-                  required
-                  aria-labelledby="MealTypesLabel"
-                >
-                <label for="MealTypeDinner">Dinner</label />
-              </div>
-
-              <div class="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="MealTypeSnack"
-                  name="contact[meal_types][]"
-                  value="snack"
-                  required
-                  aria-labelledby="MealTypesLabel"
-                >
-                <label for="MealTypeSnack">Snack</label />
-              </div>
-            </div>
-          </div>
-
-          <!-- Food Preferences -->
-          <div class="field">
-            <textarea
-              rows="4"
-              id="FoodPreferences"
-              class="text-area field__input"
-              name="contact[food_preferences]"
-              required
-              placeholder="List foods you particularly like or dislike"
-            ></textarea>
-            <label class="field__label" for="FoodPreferences"
-              >Food Preferences<span class="required-asterisk">*</span></label
-            >
-          </div>
-
-          <div class="field">
-            <textarea
-              rows="4"
-              id="AdditionalInfo"
-              class="text-area field__input"
-              name="contact[additional_info]"
-              required
-              placeholder="Any additional information we should know"
-            ></textarea>
-            <label class="field__label" for="AdditionalInfo">Additional Information</label>
-          </div>
-        </div>
       </div>
+    {%- endif -%}
 
-      <!-- Add this before the contact__button div -->
-      <div class="contact__fields">
-        <div class="field checkbox-field">
-          <input
-            type="checkbox"
-            id="AcceptTerms"
-            name="contact[accepts_terms]"
-            class="field__checkbox"
-            required
-            aria-required="true"
-          >
-          <label class="field__label checkbox-label" for="AcceptTerms">
-            I agree to the <a href="{{ shop.terms_of_service_url }}" target="_blank">Terms and Conditions</a> and
-            <a href="{{ shop.privacy_policy_url }}" target="_blank">Privacy Policy</a>
-          </label>
-        </div>
-
-        <div class="field checkbox-field">
-          <input
-            type="checkbox"
-            id="AcceptMarketing"
-            name="contact[accepts_marketing]"
-            class="field__checkbox"
-          >
-          <label class="field__label checkbox-label" for="AcceptMarketing">
-            I would like to receive marketing communications about products, services and promotions
-          </label>
-        </div>
-      </div>
-
-      <div class="contact__button">
-        <button
-          type="submit"
-          class="button"
-          {% if form.posted_successfully? %}
-            disabled
-          {% endif %}
-          aria-label="Submit client intake form"
+    <div class="contact__fields">
+      <!-- Personal Information -->
+      <div class="field">
+        <input
+          class="field__input"
+          type="text"
+          id="FirstName"
+          name="contact[first_name]"
+          value="{% if form.first_name %}{{ form.first_name }}{% endif %}"
+          placeholder="First Name"
+          required
         >
-          <span class="button__text">Submit Intake Form</span>
-          <span class="button__loader" hidden>
-            {% render 'icon-loading' %}
-          </span>
-        </button>
+        <label class="field__label" for="FirstName">First Name<span class="required-asterisk">*</span></label>
       </div>
 
-      <script>
-        document.getElementById('ClientIntakeForm').addEventListener('submit', function (e) {
-          const checkboxes = document.getElementsByClassName('meal-type-checkbox');
-          const checkboxes = document.getElementsByClassName('field__checkbox');
+      <div class="field">
+        <input
+          class="field__input"
+          type="text"
+          id="LastName"
+          name="contact[last_name]"
+          value="{% if form.last_name %}{{ form.last_name }}{% endif %}"
+          placeholder="Last Name"
+          required
+        >
+        <label class="field__label" for="LastName">Last Name<span class="required-asterisk">*</span></label>
+      </div>
 
-          for (let checkbox of checkboxes) {
-            if (checkbox.checked) {
-              checked = true;
-              break;
-            }
-          }
+      <div class="field field--with-error">
+        <input
+          type="email"
+          id="ClientEmail"
+          class="field__input"
+          name="contact[email]"
+          value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          spellcheck="false"
+          autocapitalize="off"
+          required
+          aria-required="true"
+          placeholder="Email Address"
+        >
+        <label class="field__label" for="ClientEmail">Email Address<span class="required-asterisk">*</span></label>
+      </div>
 
-          if (!checked) {
-            e.preventDefault();
-            alert('Please select at least one meal type');
+      <div class="field">
+        <input
+          type="tel"
+          id="ClientPhone"
+          class="field__input"
+          name="contact[phone]"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          pattern="[0-9\-]*"
+          placeholder="Phone Number"
+          required
+        >
+        <label class="field__label" for="ClientPhone">Phone Number<span class="required-asterisk">*</span></label>
+      </div>
+
+      <!-- Address Fields -->
+      <div class="field">
+        <input
+          class="field__input"
+          type="text"
+          id="Address"
+          name="contact[address]"
+          required
+          placeholder="Street Address"
+        >
+        <label class="field__label" for="Address">Street Address<span class="required-asterisk">*</span></label>
+      </div>
+
+      <div class="field">
+        <input
+          class="field__input"
+          type="text"
+          id="City"
+          name="contact[city]"
+          required
+          placeholder="City"
+        >
+        <label class="field__label" for="City">City<span class="required-asterisk">*</span></label>
+      </div>
+
+      <div class="field">
+        <input
+          class="field__input"
+          type="text"
+          id="State"
+          name="contact[state]"
+          required
+          placeholder="State"
+        >
+        <label class="field__label" for="State">State<span class="required-asterisk">*</span></label>
+      </div>
+
+      <div class="field">
+        <input
+          class="field__input"
+          type="text"
+          id="Zipcode"
+          name="contact[zipcode]"
+          pattern="[0-9]*"
+          required
+          placeholder="Zipcode"
+        >
+        <label class="field__label" for="Zipcode">Zipcode<span class="required-asterisk">*</span></label>
+      </div>
+
+      <!-- Dietary Information -->
+      <div class="field">
+        <textarea
+          rows="3"
+          id="Allergies"
+          class="text-area field__input"
+          name="contact[allergies]"
+          required
+          placeholder="List any food allergies"
+        ></textarea>
+        <label class="field__label" for="Allergies">Food Allergies<span class="required-asterisk">*</span></label>
+      </div>
+
+      <div class="field">
+        <textarea
+          rows="3"
+          id="DietaryRestrictions"
+          class="text-area field__input"
+          name="contact[dietary_restrictions]"
+          required
+          placeholder="List any dietary restrictions"
+        ></textarea>
+        <label class="field__label" for="DietaryRestrictions">Dietary Restrictions<span class="required-asterisk">*</span></label>
+      </div>
+
+      <!-- Meal Plan Options -->
+      <div class="field">
+        <select class="field__input field__select" id="MealDays" name="contact[meal_days]" required>
+          <option value="">Select Number of Days</option>
+          <option value="5">5 Days</option>
+          <option value="7">7 Days</option>
+          <option value="10">10 Days</option>
+          <option value="30">30 Days</option>
+        </select>
+        <label class="field__label" for="MealDays">Meal Plan Duration<span class="required-asterisk">*</span></label>
+      </div>
+
+      <!-- Meal Types -->
+      <div class="field checkbox-group">
+        <label class="checkbox-group__label">Meal Types<span class="required-asterisk">*</span></label>
+        <div class="checkbox-option">
+          <input
+            type="checkbox"
+            id="MealTypeBreakfast"
+            name="contact[meal_types][]"
+            value="breakfast"
+            class="meal-type-checkbox"
+          >
+          <label for="MealTypeBreakfast">Breakfast</label>
+        </div>
+
+        <div class="checkbox-option">
+          <input
+            type="checkbox"
+            id="MealTypeLunch"
+            name="contact[meal_types][]"
+            value="lunch"
+            class="meal-type-checkbox"
+          >
+          <label for="MealTypeLunch">Lunch</label>
+        </div>
+
+        <div class="checkbox-option">
+          <input
+            type="checkbox"
+            id="MealTypeDinner"
+            name="contact[meal_types][]"
+            value="dinner"
+            class="meal-type-checkbox"
+          >
+          <label for="MealTypeDinner">Dinner</label>
+        </div>
+
+        <div class="checkbox-option">
+          <input
+            type="checkbox"
+            id="MealTypeSnack"
+            name="contact[meal_types][]"
+            value="snack"
+            class="meal-type-checkbox"
+          >
+          <label for="MealTypeSnack">Snack</label>
+        </div>
+      </div>
+
+      <!-- Food Preferences -->
+      <div class="field">
+        <textarea
+          rows="4"
+          id="FoodPreferences"
+          class="text-area field__input"
+          name="contact[food_preferences]"
+          required
+          placeholder="List foods you particularly like or dislike"
+        ></textarea>
+        <label class="field__label" for="FoodPreferences">Food Preferences<span class="required-asterisk">*</span></label>
+      </div>
+
+      <div class="field">
+        <textarea
+          rows="4"
+          id="AdditionalInfo"
+          class="text-area field__input"
+          name="contact[additional_info]"
+          placeholder="Any additional information we should know"
+        ></textarea>
+        <label class="field__label" for="AdditionalInfo">Additional Information</label>
+      </div>
+    </div>
+
+    <div class="contact__button">
+      <button type="submit" class="button">Submit</button>
+    </div>
+
+    <script>
+      document.getElementById('ClientIntakeForm').addEventListener('submit', function(e) {
+        const checkboxes = document.getElementsByClassName('meal-type-checkbox');
+        let checked = false;
+        
+        for (let checkbox of checkboxes) {
+          if (checkbox.checked) {
+            checked = true;
+            break;
           }
-        });
-      </script>
-    {%- endform -%}
-  </div>
+        }
+        
+        if (!checked) {
+          e.preventDefault();
+          alert('Please select at least one meal type');
+        }
+      });
+    </script>
+  {%- endform -%}
 </div>
-
-{% schema %}
-{
-  "name": "Client Intake Form",
-  "tag": "section",
-  "class": "section",
-  "settings": [
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    }
-  ]
-}
-{% endschema %}
