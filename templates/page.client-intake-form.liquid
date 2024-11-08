@@ -69,19 +69,19 @@
     {%- if form.posted_successfully? -%}
       <div class="form__success" tabindex="-1" autofocus>
         {% render 'icon-success' %}
-        {{ 'Profile updated successfully!' | t }}
+        {{ 'customer.intake_form.profile_updated' | t }}
       </div>
     {%- endif -%}
 
     {%- if form.errors -%}
       <div class="form__message" role="alert">
         {% render 'icon-error' %}
-        {{ 'Please correct the errors below.' | t }}
+        {{ 'customer.intake_form.error_message' | t }}
       </div>
     {%- endif -%}
 
     <div class="field">
-      <label class="field__label" for="CustomerName">{{ 'Name' | t }} <span aria-hidden="true">*</span></label>
+      <label class="field__label" for="CustomerName">{{ 'customer.intake_form.labels.name' | t }} <span aria-hidden="true">*</span></label>
       <input
         type="text"
         id="CustomerName"
@@ -94,7 +94,7 @@
     </div>
 
     <div class="field">
-      <label class="field__label" for="CustomerEmail">{{ 'Email' | t }} <span aria-hidden="true">*</span></label>
+      <label class="field__label" for="CustomerEmail">{{ 'customer.intake_form.labels.email' | t }} <span aria-hidden="true">*</span></label>
       <input
         type="email"
         id="CustomerEmail"
@@ -119,7 +119,7 @@
     </div>
 
     <div class="field">
-      <label class="field__label" for="CustomerAddress">{{ 'Address' | t }}</label>
+      <label class="field__label" for="CustomerAddress">{{ 'customer.intake_form.labels.address' | t }}</label>
       <input
         type="text"
         id="CustomerAddress"
@@ -131,7 +131,7 @@
     </div>
 
     <div class="field">
-      <label class="field__label" for="CustomerPhone">{{ 'Phone' | t }}</label>
+      <label class="field__label" for="CustomerPhone">{{ 'customer.intake_form.labels.phone' | t }}</label>
       <input
         type="tel"
         id="CustomerPhone"
@@ -144,7 +144,7 @@
     </div>
 
     <div class="field">
-      <label class="field__label" for="CustomerAllergies">{{ 'Allergies' | t }}</label>
+      <label class="field__label" for="CustomerAllergies">{{ 'customer.intake_form.labels.allergies' | t }}</label>
       <textarea
         id="CustomerAllergies"
         name="customer[note][allergies]"
@@ -154,9 +154,9 @@
     </div>
 
     <div class="field">
-      <label class="field__label" for="CustomerDiet">{{ 'Dietary Restrictions' | t }}</label>
+      <label class="field__label" for="CustomerDiet">{{ 'customer.intake_form.labels.dietary_restrictions' | t }}</label>
       <select id="CustomerDiet" name="customer[note][dietary]" class="field__select">
-        <option value="">{{ 'Select dietary preference' | t }}</option>
+        <option value="">{{ 'customer.intake_form.dietary_options.none' | t }}</option>
         <option value="none" {% if customer.note contains '"dietary":"none"' %}selected{% endif %}>None</option>
         <option value="vegetarian" {% if customer.note contains '"dietary":"vegetarian"' %}selected{% endif %}>Vegetarian</option>
         <option value="vegan" {% if customer.note contains '"dietary":"vegan"' %}selected{% endif %}>Vegan</option>
@@ -166,7 +166,7 @@
     </div>
 
     <div class="field">
-      <label class="field__label">{{ 'Preferred Meal Types' | t }}</label>
+      <label class="field__label">{{ 'customer.intake_form.labels.preferred_meal_types' | t }}</label>
       <div class="checkbox-group">
         {% assign meal_types = 'breakfast,lunch,dinner' | split: ',' %}
         {% for type in meal_types %}
@@ -184,9 +184,9 @@
     </div>
 
     <div class="field">
-      <label class="field__label" for="CustomerFrequency">{{ 'Purchase Frequency' | t }}</label>
+      <label class="field__label" for="CustomerFrequency">{{ 'customer.intake_form.labels.purchase_frequency' | t }}</label>
       <select id="CustomerFrequency" name="customer[note][frequency]" class="field__select">
-        <option value="">{{ 'Select frequency' | t }}</option>
+        <option value="">{{ 'customer.intake_form.placeholders.select_frequency' | t }}</option>
         <option value="weekly" {% if customer.note contains '"frequency":"weekly"' %}selected{% endif %}>Weekly</option>
         <option value="biweekly" {% if customer.note contains '"frequency":"biweekly"' %}selected{% endif %}>Bi-Weekly</option>
         <option value="monthly" {% if customer.note contains '"frequency":"monthly"' %}selected{% endif %}>Monthly</option>
@@ -194,7 +194,7 @@
     </div>
 
     <button type="submit" class="button button--primary">
-      {{ 'Save Profile' | t }}
+      {{ 'customer.intake_form.submit' | t }}
     </button>
   {% endform %}
 </div>
