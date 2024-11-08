@@ -163,6 +163,32 @@
           {% endfor %}
         </div>
       </div>
+
+      <div class="order-details">
+        {% if order.metafields.meal_prep.menu %}
+          <div class="menu-status">
+            <h3>Your Custom Menu</h3>
+            {{ order.metafields.meal_prep.menu | newline_to_br }}
+
+            {% if order.tags contains 'menu-approved' and order.financial_status == 'pending' %}
+              <div class="payment-section">
+                <p class="total-price">Total: {{ order.total_price | money }}</p>
+                <form action="{{ order.invoice_url }}" method="get">
+                  <button type="submit" class="button button--primary">Pay Now</button>
+                </form>
+              </div>
+            {% else %}
+              {% unless order.tags contains 'menu-approved' %}
+                <form method="post" action="/apps/menu-approval">
+                  {{ order.id | hidden_field_tag: 'order_id' }}
+                  <button type="submit" class="button">Approve Menu</button>
+                </form>
+              {% endunless %}
+            {% endif %}
+          </div>
+        {% endif %}
+        <!-- Rest of the code remains same -->
+      </div>
     </div>
 
     <div>
