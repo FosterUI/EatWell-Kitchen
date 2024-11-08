@@ -260,7 +260,12 @@
     "404": {
       "title": "Page not found",
       "subtext": "404"
-    }
+    },
+    "customers": {
+      "register": {
+        "success": "Account created successfully! Welcome to EatWell Kitchen."
+      }
+    },
   },
   "sections": {
     "announcements": {
