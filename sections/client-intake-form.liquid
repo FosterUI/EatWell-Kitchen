@@ -1,5 +1,22 @@
 {{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
 
+<style>
+.account-creation-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.form-section-title {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.password-fields {
+  margin-bottom: 2rem;
+}
+</style>
+
 <div class="page-width page-width--narrow">
   <h1 class="title title-wrapper--no-top-margin">{{ page.title }}</h1>
   <p class="form-required-notice">* Required fields</p>
@@ -62,19 +79,6 @@
             placeholder="Email Address"
           >
           <label class="field__label" for="ClientEmail">Email Address<span class="required-asterisk">*</span></label>
-        </div>
-
-        <div class="field">
-          <input
-            type="password"
-            id="CustomerPassword"
-            class="field__input"
-            name="customer[password]"
-            required
-            aria-required="true"
-            placeholder="Password"
-          >
-          <label class="field__label" for="CustomerPassword">Password<span class="required-asterisk">*</span></label>
         </div>
 
         <!-- Store additional fields as customer metafields -->
@@ -259,6 +263,42 @@
         </div>
       </div>
 
+      <div class="account-creation-section">
+        <h2 class="form-section-title">Create Your Account</h2>
+
+        <div class="password-fields">
+          <div class="field">
+            <input
+              type="password"
+              id="CustomerPassword"
+              class="field__input"
+              name="customer[password]"
+              required
+              aria-required="true"
+              placeholder="Password"
+              minlength="5"
+            >
+            <label class="field__label" for="CustomerPassword">Password<span class="required-asterisk">*</span></label>
+          </div>
+
+          <div class="field">
+            <input
+              type="password"
+              id="PasswordConfirmation"
+              class="field__input"
+              name="customer[password_confirmation]"
+              required
+              aria-required="true"
+              placeholder="Confirm Password"
+              minlength="5"
+            >
+            <label class="field__label" for="PasswordConfirmation"
+              >Confirm Password<span class="required-asterisk">*</span></label
+            >
+          </div>
+        </div>
+      </div>
+
       <div class="field checkbox-field">
         <input
           type="checkbox"
@@ -301,21 +341,48 @@
       this.form = this.querySelector('form');
       this.submitButton = this.querySelector('button[type="submit"]');
       this.termsCheckbox = this.querySelector('#AcceptTerms');
-      this.marketingCheckbox = this.querySelector('#AcceptMarketing');
-
+      this.passwordInput = this.querySelector('#CustomerPassword');
+      this.passwordConfirmInput = this.querySelector('#PasswordConfirmation');
+      
       this.setupEventListeners();
     }
 
     setupEventListeners() {
       this.form.addEventListener('submit', this.handleSubmit.bind(this));
       this.termsCheckbox.addEventListener('change', this.validateForm.bind(this));
+      this.passwordInput.addEventListener('input', this.validatePassword.bind(this));
+      this.passwordConfirmInput.addEventListener('input', this.validatePassword.bind(this));
+    }
+
+    validatePassword() {
+      const password = this.passwordInput.value;
+      const confirmation = this.passwordConfirmInput.value;
+      
+      // Validate minimum length
+      if (password.length < 5) {
+        this.passwordInput.setCustomValidity('Password must be at least 5 characters');
+        return false;
+      }
+      
+      // Validate password match
+      if (password !== confirmation) {
+        this.passwordConfirmInput.setCustomValidity('Passwords do not match');
+        return false;
+      }
+
+      // Clear validation messages if valid
+      this.passwordInput.setCustomValidity('');
+      this.passwordConfirmInput.setCustomValidity('');
+      return true;
     }
 
     validateForm() {
-      const isValid = this.termsCheckbox.checked;
-      this.submitButton.disabled = !isValid;
+      const isTermsAccepted = this.termsCheckbox.checked;
+      const isPasswordValid = this.validatePassword();
+      
+      this.submitButton.disabled = !(isTermsAccepted && isPasswordValid);
 
-      if (!isValid) {
+      if (!isTermsAccepted) {
         this.termsCheckbox.setCustomValidity('You must accept the Terms and Conditions to continue');
       } else {
         this.termsCheckbox.setCustomValidity('');
@@ -323,8 +390,10 @@
     }
 
     handleSubmit(event) {
-      if (!this.termsCheckbox.checked) {
+      if (!this.validatePassword() || !this.termsCheckbox.checked) {
         event.preventDefault();
+        this.passwordInput.reportValidity();
+        this.passwordConfirmInput.reportValidity();
         this.termsCheckbox.reportValidity();
       }
     }
