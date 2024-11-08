@@ -283,33 +283,24 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.querySelector('.form');
+  const feedbackDiv = form.querySelector('.form__feedback');
   
-  // Initialize fields to prevent "null" display
-  const initializeField = (fieldName) => {
-    const field = form.querySelector(`[name="customer[note][${fieldName}]"]`);
-    if (field) {
-      try {
-        const noteData = {{ customer.note | json }};
-        field.value = noteData?.[fieldName] || '';
-      } catch (e) {
-        field.value = '';
-      }
-    }
-  };
-
-  ['address', 'allergies', 'dietary'].forEach(initializeField);
-
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    
+    // Clear previous feedback
+    feedbackDiv.innerHTML = '';
+    feedbackDiv.style.display = 'none';
+    feedbackDiv.className = 'form__feedback';
     
     // Clear previous errors
     form.querySelectorAll('.error-message').forEach(el => el.remove());
     form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-    
+
     // Validate required fields
     const requiredFields = form.querySelectorAll('[required]');
     let isValid = true;
-    
+
     requiredFields.forEach(field => {
       if (!field.value.trim()) {
         isValid = false;
@@ -346,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updated_at: new Date().toISOString()
       };
 
-      // Add hidden note input
+      // Create or update hidden note input
       let noteInput = form.querySelector('input[name="customer[note]"]');
       if (!noteInput) {
         noteInput = document.createElement('input');
@@ -356,21 +347,44 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       noteInput.value = JSON.stringify(noteData);
 
-      // Submit form
-      form.submit();
+      // Submit form using fetch to handle response
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        feedbackDiv.innerHTML = `
+          {% render 'icon-success' %}
+          <span>{{ 'customer.intake_form.profile_updated' | t }}</span>
+        `;
+        feedbackDiv.className = 'form__success';
+        feedbackDiv.style.display = 'flex';
+        form.reset();
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
 
     } catch (error) {
       console.error('Form submission error:', error);
       
-      const errorMessage = document.createElement('div');
-      errorMessage.className = 'form__message';
-      errorMessage.setAttribute('role', 'alert');
-      errorMessage.innerHTML = `{% render 'icon-error' %} {{ 'customer.intake_form.error_message' | t }}`;
-      form.insertBefore(errorMessage, form.firstChild);
-      
+      feedbackDiv.innerHTML = `
+        {% render 'icon-error' %}
+        <span>{{ 'customer.intake_form.error_message' | t }}</span>
+      `;
+      feedbackDiv.className = 'form__error';
+      feedbackDiv.style.display = 'flex';
+    } finally {
       submitButton.disabled = false;
       buttonText.classList.remove('hidden');
       buttonLoading.classList.add('hidden');
+      feedbackDiv.scrollIntoView({ behavior: 'smooth' });
     }
   });
 });
