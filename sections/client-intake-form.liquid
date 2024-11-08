@@ -4,17 +4,17 @@
   <h1 class="title title-wrapper--no-top-margin">{{ page.title }}</h1>
   <p class="form-required-notice">* Required fields</p>
 
-  {%- form 'contact', id: 'ClientIntakeForm', class: 'isolate' -%}
+  {%- form 'create_customer', id: 'ClientIntakeForm', class: 'isolate' -%}
     {%- if form.posted_successfully? -%}
       <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
         {% render 'icon-success' %}
-        {{ 'templates.contact.form.post_success' | t }}
+        {{ 'templates.customers.register.success' | t }}
       </h2>
     {%- elsif form.errors -%}
       <div class="form__message">
         <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
           {% render 'icon-error' %}
-          {{ 'templates.contact.form.error_heading' | t }}
+          {{ form.errors | default_errors }}
         </h2>
       </div>
     {%- endif -%}
@@ -26,7 +26,7 @@
           class="field__input"
           type="text"
           id="FirstName"
-          name="contact[first_name]"
+          name="customer[first_name]"
           value="{% if form.first_name %}{{ form.first_name }}{% endif %}"
           placeholder="First Name"
           required
@@ -39,7 +39,7 @@
           class="field__input"
           type="text"
           id="LastName"
-          name="contact[last_name]"
+          name="customer[last_name]"
           value="{% if form.last_name %}{{ form.last_name }}{% endif %}"
           placeholder="Last Name"
           required
@@ -52,8 +52,8 @@
           type="email"
           id="ClientEmail"
           class="field__input"
-          name="contact[email]"
-          value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          name="customer[email]"
+          value="{% if form.email %}{{ form.email }}{% endif %}"
           spellcheck="false"
           autocapitalize="off"
           required
@@ -65,11 +65,26 @@
 
       <div class="field">
         <input
+          type="password"
+          id="CustomerPassword"
+          class="field__input"
+          name="customer[password]"
+          required
+          aria-required="true"
+          placeholder="Password"
+        >
+        <label class="field__label" for="CustomerPassword">Password<span class="required-asterisk">*</span></label>
+      </div>
+
+      <!-- Store additional fields as customer metafields -->
+      <input type="hidden" name="customer[tags]" value="meal-plan-client">
+
+      <div class="field">
+        <input
           type="tel"
           id="ClientPhone"
           class="field__input"
-          name="contact[phone]"
-          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          name="customer[phone]"
           pattern="[0-9\-]*"
           placeholder="Phone Number"
           required
@@ -77,13 +92,13 @@
         <label class="field__label" for="ClientPhone">Phone Number<span class="required-asterisk">*</span></label>
       </div>
 
-      <!-- Address Fields -->
+      <!-- Address information stored in customer's default address -->
       <div class="field">
         <input
           class="field__input"
           type="text"
           id="Address"
-          name="contact[address]"
+          name="customer[addresses][0][address1]"
           required
           placeholder="Street Address"
         >
@@ -95,7 +110,7 @@
           class="field__input"
           type="text"
           id="City"
-          name="contact[city]"
+          name="customer[addresses][0][city]"
           required
           placeholder="City"
         >
@@ -107,7 +122,7 @@
           class="field__input"
           type="text"
           id="State"
-          name="contact[state]"
+          name="customer[addresses][0][province]"
           required
           placeholder="State"
         >
@@ -119,7 +134,7 @@
           class="field__input"
           type="text"
           id="Zipcode"
-          name="contact[zipcode]"
+          name="customer[addresses][0][zip]"
           pattern="[0-9]*"
           required
           placeholder="Zipcode"
@@ -127,13 +142,13 @@
         <label class="field__label" for="Zipcode">Zipcode<span class="required-asterisk">*</span></label>
       </div>
 
-      <!-- Dietary Information -->
+      <!-- Store dietary info in customer note -->
       <div class="field">
         <textarea
           rows="3"
           id="Allergies"
           class="text-area field__input"
-          name="contact[allergies]"
+          name="customer[note][allergies]"
           required
           placeholder="List any food allergies"
         ></textarea>
@@ -149,7 +164,9 @@
           required
           placeholder="List any dietary restrictions"
         ></textarea>
-        <label class="field__label" for="DietaryRestrictions">Dietary Restrictions<span class="required-asterisk">*</span></label>
+        <label class="field__label" for="DietaryRestrictions"
+          >Dietary Restrictions<span class="required-asterisk">*</span></label
+        >
       </div>
 
       <!-- Meal Plan Options -->
@@ -222,7 +239,9 @@
           required
           placeholder="List foods you particularly like or dislike"
         ></textarea>
-        <label class="field__label" for="FoodPreferences">Food Preferences<span class="required-asterisk">*</span></label>
+        <label class="field__label" for="FoodPreferences"
+          >Food Preferences<span class="required-asterisk">*</span></label
+        >
       </div>
 
       <div class="field">
@@ -242,17 +261,17 @@
     </div>
 
     <script>
-      document.getElementById('ClientIntakeForm').addEventListener('submit', function(e) {
+      document.getElementById('ClientIntakeForm').addEventListener('submit', function (e) {
         const checkboxes = document.getElementsByClassName('meal-type-checkbox');
         let checked = false;
-        
+
         for (let checkbox of checkboxes) {
           if (checkbox.checked) {
             checked = true;
             break;
           }
         }
-        
+
         if (!checked) {
           e.preventDefault();
           alert('Please select at least one meal type');
