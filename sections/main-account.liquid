@@ -137,7 +137,33 @@
         {%- endif -%}
       {% endpaginate %}
 
-      {%- comment -%}main-account.liquid - Custom: Order Details Section{%- endcomment -%}
+      {%- comment -%}
+      CUSTOM MENU APPROVAL
+        Order Details Section
+        ====================
+        Displays customer's custom meal prep menu and related actions.
+
+        Dependencies:
+        - Requires order.metafields.custom.meal_prep_menu
+        - Requires order.tags
+        - Requires order.financial_status
+        - Requires order.total_price
+        - Requires order.invoice_url
+        - Requires order.id
+
+        Functionality:
+        1. Shows custom menu content if it exists
+        2. If menu is approved and payment is pending:
+           - Displays total price
+           - Shows payment button linking to invoice
+        3. If menu is not approved:
+           - Shows menu approval button
+           - Posts to /apps/menu-approval endpoint
+
+        States:
+        - menu-approved tag: Controls visibility of payment vs approval options
+        - pending financial_status: Controls payment button visibility
+      {%- endcomment -%}
       <div class="order-details">
         {% if order.metafields.custom.meal_prep_menu %}
           <div class="menu-status">
