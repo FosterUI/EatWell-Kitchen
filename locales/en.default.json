@@ -486,6 +486,42 @@
       "password": "Password",
       "password_confirm": "Confirm password",
       "submit": "Reset password"
+    },
+    "intake_form": {
+      "profile_updated": "Profile updated successfully!",
+      "error_message": "Please correct the errors below.",
+      "labels": {
+        "name": "Name",
+        "email": "Email",
+        "address": "Address",
+        "phone": "Phone",
+        "allergies": "Allergies",
+        "dietary_restrictions": "Dietary Restrictions",
+        "preferred_meal_types": "Preferred Meal Types",
+        "purchase_frequency": "Purchase Frequency"
+      },
+      "placeholders": {
+        "select_dietary": "Select dietary preference",
+        "select_frequency": "Select frequency"
+      },
+      "dietary_options": {
+        "none": "None",
+        "vegetarian": "Vegetarian",
+        "vegan": "Vegan",
+        "gluten_free": "Gluten-Free",
+        "keto": "Keto"
+      },
+      "meal_types": {
+        "breakfast": "Breakfast",
+        "lunch": "Lunch",
+        "dinner": "Dinner"
+      },
+      "frequency_options": {
+        "weekly": "Weekly",
+        "biweekly": "Bi-Weekly",
+        "monthly": "Monthly"
+      },
+      "submit": "Save Profile"
     }
   },
   "gift_cards": {
