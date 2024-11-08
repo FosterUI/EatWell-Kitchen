@@ -1,0 +1,95 @@
+<div class="intake-form-section">
+  <form action="/apps/meal-prep/intake" method="POST" id="mealPrepIntake">
+    <div class="form-group">
+      <h2>Meal Prep Intake Form</h2>
+      
+      <label for="dietary">Dietary Restrictions</label>
+      <select name="dietary" id="dietary" required>
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="vegetarian">Vegetarian</option>
+        <option value="vegan">Vegan</option>
+        <option value="gluten-free">Gluten-Free</option>
+        <option value="keto">Keto</option>
+      </select>
+
+      <label for="allergies">Allergies</label>
+      <textarea name="allergies" id="allergies" rows="3"></textarea>
+
+      <label for="mealTypes">Preferred Meal Types</label>
+      <div class="checkbox-group">
+        <input type="checkbox" id="breakfast" name="mealTypes[]" value="breakfast">
+        <label for="breakfast">Breakfast</label>
+        
+        <input type="checkbox" id="lunch" name="mealTypes[]" value="lunch">
+        <label for="lunch">Lunch</label>
+        
+        <input type="checkbox" id="dinner" name="mealTypes[]" value="dinner">
+        <label for="dinner">Dinner</label>
+      </div>
+
+      <label for="frequency">Purchase Frequency</label>
+      <select name="frequency" id="frequency" required>
+        <option value="weekly">Weekly</option>
+        <option value="biweekly">Bi-Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+
+      <label for="notes">Additional Notes</label>
+      <textarea name="notes" id="notes" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="button button--primary">Submit</button>
+  </form>
+</div>
+
+{% schema %}
+{
+  "name": "Meal Prep Intake",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Meal Prep Intake Form"
+    }
+  ]
+}
+{% endschema %}
+
+{% comment %} <style>
+.intake-form-section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+label {
+  font-weight: 500;
+}
+
+select, textarea {
+  padding: 0.5em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 1em;
+}
+
+.button--primary {
+  margin-top: 1em;
+  padding: 1em 2em;
+  background: #008060;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+</style> {% endcomment %}
