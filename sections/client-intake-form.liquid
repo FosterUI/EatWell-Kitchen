@@ -155,12 +155,13 @@
         <label class="field__label" for="Allergies">Food Allergies<span class="required-asterisk">*</span></label>
       </div>
 
+      <!-- Dietary Restrictions -->
       <div class="field">
         <textarea
           rows="3"
           id="DietaryRestrictions"
           class="text-area field__input"
-          name="contact[dietary_restrictions]"
+          name="customer[note][dietary_restrictions]"
           required
           placeholder="List any dietary restrictions"
         ></textarea>
@@ -169,9 +170,9 @@
         >
       </div>
 
-      <!-- Meal Plan Options -->
+      <!-- Meal Plan Duration -->
       <div class="field">
-        <select class="field__input field__select" id="MealDays" name="contact[meal_days]" required>
+        <select class="field__input field__select" id="MealDays" name="customer[note][meal_days]" required>
           <option value="">Select Number of Days</option>
           <option value="5">5 Days</option>
           <option value="7">7 Days</option>
@@ -188,7 +189,7 @@
           <input
             type="checkbox"
             id="MealTypeBreakfast"
-            name="contact[meal_types][]"
+            name="customer[note][meal_types][]"
             value="breakfast"
             class="meal-type-checkbox"
           >
@@ -199,7 +200,7 @@
           <input
             type="checkbox"
             id="MealTypeLunch"
-            name="contact[meal_types][]"
+            name="customer[note][meal_types][]"
             value="lunch"
             class="meal-type-checkbox"
           >
@@ -210,7 +211,7 @@
           <input
             type="checkbox"
             id="MealTypeDinner"
-            name="contact[meal_types][]"
+            name="customer[note][meal_types][]"
             value="dinner"
             class="meal-type-checkbox"
           >
@@ -221,7 +222,7 @@
           <input
             type="checkbox"
             id="MealTypeSnack"
-            name="contact[meal_types][]"
+            name="customer[note][meal_types][]"
             value="snack"
             class="meal-type-checkbox"
           >
@@ -235,7 +236,7 @@
           rows="4"
           id="FoodPreferences"
           class="text-area field__input"
-          name="contact[food_preferences]"
+          name="customer[note][food_preferences]"
           required
           placeholder="List foods you particularly like or dislike"
         ></textarea>
@@ -244,12 +245,13 @@
         >
       </div>
 
+      <!-- Additional Information -->
       <div class="field">
         <textarea
           rows="4"
           id="AdditionalInfo"
           class="text-area field__input"
-          name="contact[additional_info]"
+          name="customer[note][additional_info]"
           placeholder="Any additional information we should know"
         ></textarea>
         <label class="field__label" for="AdditionalInfo">Additional Information</label>
