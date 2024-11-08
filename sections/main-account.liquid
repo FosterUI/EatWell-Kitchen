@@ -180,7 +180,7 @@
             {% else %}
               {% unless order.tags contains 'menu-approved' %}
                 <form method="post" action="/apps/menu-approval">
-                  {{ order.id | hidden_field_tag: 'order_id' }}
+                  <input type="hidden" name="order_id" value="{{ order.id }}">
                   <button type="submit" class="button">Approve Menu</button>
                 </form>
               {% endunless %}
