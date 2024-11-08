@@ -493,6 +493,13 @@
       "labels": {
         "name": "Name",
         "email": "Email",
+        "errors": {
+        "email": {
+          "invalid": "Please enter a valid email address",
+          "taken": "This email is already associated with an account",
+          "blank": "Email cannot be blank"
+        }
+      },
         "address": "Address",
         "phone": "Phone",
         "allergies": "Allergies",
