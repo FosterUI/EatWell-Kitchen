@@ -5,6 +5,8 @@
   <div class="contact page-width page-width--narrow">
     <h1 class="title title-wrapper--no-top-margin">{{ page.title }}</h1>
 
+    <p class="form-required-notice">* Required fields</p>
+
     {%- form 'contact', id: 'ClientIntakeForm', class: 'isolate' -%}
       {%- if form.posted_successfully? -%}
         <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
@@ -169,14 +171,59 @@
           </div>
 
           <div class="field">
-            <select class="field__input select" id="MealTypes" name="contact[meal_types]" required>
-              <option value="">Select Meal Type</option>
-              <option value="breakfast">Breakfast</option>
-              <option value="lunch">Lunch</option>
-              <option value="dinner">Dinner</option>
-              <option value="snack">Snack</option>
-            </select>
-            <label class="field__label" for="MealTypes">Meal Types</label>
+            <div class="checkbox-group">
+              <label class="checkbox-group__label" id="MealTypesLabel">
+                Meal Types<span class="required-asterisk">*</span>
+              </label>
+
+              <div class="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="MealTypeBreakfast"
+                  name="contact[meal_types][]"
+                  value="breakfast"
+                  required
+                  aria-labelledby="MealTypesLabel"
+                >
+                <label for="MealTypeBreakfast">Breakfast</label>
+              </div>
+
+              <div class="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="MealTypeLunch"
+                  name="contact[meal_types][]"
+                  value="lunch"
+                  required
+                  aria-labelledby="MealTypesLabel"
+                >
+                <label for="MealTypeLunch">Lunch</label>
+              </div>
+
+              <div class="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="MealTypeDinner"
+                  name="contact[meal_types][]"
+                  value="dinner"
+                  required
+                  aria-labelledby="MealTypesLabel"
+                >
+                <label for="MealTypeDinner">Dinner</label>
+              </div>
+
+              <div class="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="MealTypeSnack"
+                  name="contact[meal_types][]"
+                  value="snack"
+                  required
+                  aria-labelledby="MealTypesLabel"
+                >
+                <label for="MealTypeSnack">Snack</label>
+              </div>
+            </div>
           </div>
 
           <!-- Food Preferences -->
