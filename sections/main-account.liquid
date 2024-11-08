@@ -139,36 +139,10 @@
 
       {%- comment -%}main-account.liquid - Custom: Order Details Section{%- endcomment -%}
       <div class="order-details">
-        {% if order.metafields.meal_prep.menu %}
+        {% if order.metafields.custom.meal_prep.menu %}
           <div class="menu-status">
             <h3>Your Custom Menu</h3>
-            {{ order.metafields.meal_prep.menu | newline_to_br }}
-
-            {% unless order.tags contains 'menu-approved' %}
-              <form method="post" action="/apps/menu-approval">
-                <input type="hidden" name="order_id" value="{{ order.id }}">
-                <button type="submit" class="button">Approve Menu</button>
-              </form>
-            {% endunless %}
-          </div>
-        {% endif %}
-
-        <div class="intake-details">
-          <h3>Intake Form Details</h3>
-          {% for property in order.properties %}
-            <div class="property-item">
-              <strong>{{ property.first }}:</strong>
-              {{ property.last }}
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="order-details">
-        {% if order.metafields.meal_prep.menu %}
-          <div class="menu-status">
-            <h3>Your Custom Menu</h3>
-            {{ order.metafields.meal_prep.menu | newline_to_br }}
+            {{ order.metafields.custom.meal_prep.menu | newline_to_br }}
 
             {% if order.tags contains 'menu-approved' and order.financial_status == 'pending' %}
               <div class="payment-section">
@@ -187,7 +161,6 @@
             {% endif %}
           </div>
         {% endif %}
-        <!-- Rest of the code remains same -->
       </div>
     </div>
 
