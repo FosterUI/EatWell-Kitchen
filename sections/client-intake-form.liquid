@@ -1,5 +1,28 @@
 {{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
 
+<!-- Add this CSS to section-contact-form.css -->
+<style>
+  .checkbox-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .field__checkbox {
+    margin-top: 0.25rem;
+  }
+
+  .checkbox-label {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .checkbox-label a {
+    text-decoration: underline;
+  }
+</style>
+
 <!-- sections/client-intake-form.liquid -->
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="contact page-width page-width--narrow">
@@ -21,20 +44,36 @@
       {%- endif -%}
 
       <div class="contact__fields">
-        <div class="field">
-          <input
-            class="field__input"
-            type="text" 
-            id="ClientName"
-            name="contact[name]"
-            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            placeholder="Full Name"
-            required
-          >
-          <label class="field__label" for="ClientName">Full Name</label>
+        <div class="contact__fields">
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="FirstName"
+              name="contact[first_name]"
+              value="{% if form.first_name %}{{ form.first_name }}{% endif %}"
+              placeholder="First Name"
+              required
+            >
+            <label class="field__label" for="FirstName">First Name</label>
+          </div>
+
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="LastName"
+              name="contact[last_name]"
+              value="{% if form.last_name %}{{ form.last_name }}{% endif %}"
+              placeholder="Last Name"
+              required
+            >
+            <label class="field__label" for="LastName">Last Name</label>
+          </div>
         </div>
 
         <div class="field field--with-error">
+          <!-- Email Fields -->
           <input
             type="email"
             id="ClientEmail"
@@ -51,6 +90,7 @@
         </div>
 
         <div class="field">
+          <!-- Phone Fields -->
           <input
             type="tel"
             id="ClientPhone"
@@ -63,44 +103,169 @@
           <label class="field__label" for="ClientPhone">Phone Number</label>
         </div>
 
-        <div class="field">
-          <textarea
-            rows="5"
-            id="ProjectDetails"
-            class="text-area field__input"
-            name="contact[project_details]"
-            placeholder="Tell us about your project"
-          >{{- form.body -}}</textarea>
-          <label class="field__label" for="ProjectDetails">Project Details</label>
-        </div>
+        <div class="contact__fields">
+          <!-- Address Fields -->
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="Address"
+              name="contact[address]"
+              required
+              placeholder="Street Address"
+            >
+            <label class="field__label" for="Address">Street Address</label>
+          </div>
 
-        <div class="field">
-          <select class="field__input select" id="ProjectBudget" name="contact[budget]" required>
-            <option value="">Select Budget Range</option>
-            <option value="1000-5000">$1,000 - $5,000</option>
-            <option value="5000-10000">$5,000 - $10,000</option>
-            <option value="10000-plus">$10,000+</option>
-          </select>
-          <label class="field__label" for="ProjectBudget">Project Budget</label>
-        </div>
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="City"
+              name="contact[city]"
+              required
+              placeholder="City"
+            >
+            <label class="field__label" for="City">City</label>
+          </div>
 
-        <div class="field">
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="State"
+              name="contact[state]"
+              required
+              placeholder="State"
+            >
+            <label class="field__label" for="State">State</label>
+          </div>
+
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="Zipcode"
+              name="contact[zipcode]"
+              pattern="[0-9]*"
+              required
+              placeholder="Zipcode"
+            >
+            <label class="field__label" for="Zipcode">Zipcode</label>
+          </div>
+
+          <!-- Dietary Information -->
+          <div class="field">
+            <textarea
+              rows="3"
+              id="Allergies"
+              class="text-area field__input"
+              name="contact[allergies]"
+              required
+              placeholder="List any food allergies"
+            ></textarea>
+            <label class="field__label" for="Allergies">Food Allergies</label>
+          </div>
+
+          <div class="field">
+            <textarea
+              rows="3"
+              id="DietaryRestrictions"
+              class="text-area field__input"
+              name="contact[dietary_restrictions]"
+              required
+              placeholder="List any dietary restrictions"
+            ></textarea>
+            <label class="field__label" for="DietaryRestrictions">Dietary Restrictions</label>
+          </div>
+
+          <!-- Meal Plan Options -->
+          <div class="field">
+            <select class="field__input select" id="MealDays" name="contact[meal_days]" required>
+              <option value="">Select Number of Days</option>
+              <option value="5">5 Days</option>
+              <option value="7">7 Days</option>
+              <option value="10">10 Days</option>
+              <option value="30">30 Days</option>
+            </select>
+            <label class="field__label" for="MealDays">Meal Plan Duration</label>
+          </div>
+
+          <div class="field">
+            <select class="field__input select" id="MealTypes" name="contact[meal_types]" required>
+              <option value="">Select Meal Type</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="snack">Snack</option>
+            </select>
+            <label class="field__label" for="MealTypes">Meal Types</label>
+          </div>
+
+          <!-- Food Preferences -->
+          <div class="field">
+            <textarea
+              rows="4"
+              id="FoodPreferences"
+              class="text-area field__input"
+              name="contact[food_preferences]"
+              required
+              placeholder="List foods you particularly like or dislike"
+            ></textarea>
+            <label class="field__label" for="FoodPreferences">Food Preferences</label>
+          </div>
+
+          <div class="field">
+            <textarea
+              rows="4"
+              id="AdditionalInfo"
+              class="text-area field__input"
+              name="contact[additional_info]"
+              required
+              placeholder="Any additional information we should know"
+            ></textarea>
+            <label class="field__label" for="AdditionalInfo">Additional Information</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add this before the contact__button div -->
+      <div class="contact__fields">
+        <div class="field checkbox-field">
           <input
-            type="date"
-            id="ProjectTimeline"
-            class="field__input"
-            name="contact[timeline]"
+            type="checkbox"
+            id="AcceptTerms"
+            name="contact[accepts_terms]"
+            class="field__checkbox"
             required
+            aria-required="true"
           >
-          <label class="field__label" for="ProjectTimeline">Desired Completion Date</label>
+          <label class="field__label checkbox-label" for="AcceptTerms">
+            I agree to the <a href="{{ shop.terms_of_service_url }}" target="_blank">Terms and Conditions</a> and
+            <a href="{{ shop.privacy_policy_url }}" target="_blank">Privacy Policy</a>
+          </label>
+        </div>
+
+        <div class="field checkbox-field">
+          <input
+            type="checkbox"
+            id="AcceptMarketing"
+            name="contact[accepts_marketing]"
+            class="field__checkbox"
+          >
+          <label class="field__label checkbox-label" for="AcceptMarketing">
+            I would like to receive marketing communications about products, services and promotions
+          </label>
         </div>
       </div>
 
       <div class="contact__button">
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           class="button"
-          {% if form.posted_successfully? %}disabled{% endif %}
+          {% if form.posted_successfully? %}
+            disabled
+          {% endif %}
           aria-label="Submit client intake form"
         >
           <span class="button__text">Submit Intake Form</span>
