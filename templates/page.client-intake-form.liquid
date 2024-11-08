@@ -97,6 +97,23 @@
     stroke-dashoffset: -124;
   }
 }
+
+.field__input.error,
+.field__select.error {
+  border-color: var(--color-error);
+  background-color: var(--color-error-bg);
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+.field__input.error + .error-message {
+  display: block;
+}
 {%- endstyle -%}
 
 <div class="customer-form page-width">
