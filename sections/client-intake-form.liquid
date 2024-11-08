@@ -186,7 +186,9 @@
               required
               placeholder="List any dietary restrictions"
             ></textarea>
-            <label class="field__label" for="DietaryRestrictions">Dietary Restrictions<span class="required-asterisk">*</span></label>
+            <label class="field__label" for="DietaryRestrictions"
+              >Dietary Restrictions<span class="required-asterisk">*</span></label
+            >
           </div>
 
           <!-- Meal Plan Options -->
@@ -198,7 +200,9 @@
               <option value="10">10 Days</option>
               <option value="30">30 Days</option>
             </select>
-            <label class="field__label" for="MealDays">Meal Plan Duration<span class="required-asterisk">*</span></label>
+            <label class="field__label" for="MealDays"
+              >Meal Plan Duration<span class="required-asterisk">*</span></label
+            >
           </div>
 
           <!-- Meal Types -->
@@ -268,7 +272,9 @@
               required
               placeholder="List foods you particularly like or dislike"
             ></textarea>
-            <label class="field__label" for="FoodPreferences">Food Preferences<span class="required-asterisk">*</span></label>
+            <label class="field__label" for="FoodPreferences"
+              >Food Preferences<span class="required-asterisk">*</span></label
+            >
           </div>
 
           <div class="field">
@@ -330,6 +336,25 @@
           </span>
         </button>
       </div>
+
+      <script>
+        document.getElementById('ClientIntakeForm').addEventListener('submit', function (e) {
+          const checkboxes = document.getElementsByClassName('meal-type-checkbox');
+          let checked = false;
+
+          for (let checkbox of checkboxes) {
+            if (checkbox.checked) {
+              checked = true;
+              break;
+            }
+          }
+
+          if (!checked) {
+            e.preventDefault();
+            alert('Please select at least one meal type');
+          }
+        });
+      </script>
     {%- endform -%}
   </div>
 </div>
