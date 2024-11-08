@@ -191,26 +191,23 @@
             >
           </div>
 
-          <!-- Meal Plan Options -->
+          <!-- Select the number of days for the meal plan -->
           <div class="field">
-            <select class="field__input select" id="MealDays" name="contact[meal_days]" required>
+            <select class="field__input field__select" id="MealDays" name="contact[meal_days]" required>
               <option value="">Select Number of Days</option>
               <option value="5">5 Days</option>
               <option value="7">7 Days</option>
               <option value="10">10 Days</option>
               <option value="30">30 Days</option>
             </select>
-            <label class="field__label" for="MealDays"
-              >Meal Plan Duration<span class="required-asterisk">*</span></label
-            >
+            <label class="field__label" for="MealDays" />Meal Plan Duration<span class="required-asterisk">*</span>
           </div>
 
           <!-- Meal Types -->
           <div class="field">
-            <div class="checkbox-group">
-              <label class="checkbox-group__label" id="MealTypesLabel">
+          <!-- Section for selecting meal types (Breakfast, Lunch, Dinner, Snack) -->
+              <label class="checkbox-group__label" id="MealTypesLabel" />
                 Meal Types<span class="required-asterisk">*</span>
-              </label>
 
               <div class="checkbox-option">
                 <input
@@ -221,7 +218,7 @@
                   required
                   aria-labelledby="MealTypesLabel"
                 >
-                <label for="MealTypeBreakfast">Breakfast</label>
+                <label for="MealTypeBreakfast">Breakfast</label />
               </div>
 
               <div class="checkbox-option">
@@ -233,7 +230,7 @@
                   required
                   aria-labelledby="MealTypesLabel"
                 >
-                <label for="MealTypeLunch">Lunch</label>
+                <label for="MealTypeLunch">Lunch</label />
               </div>
 
               <div class="checkbox-option">
@@ -245,7 +242,7 @@
                   required
                   aria-labelledby="MealTypesLabel"
                 >
-                <label for="MealTypeDinner">Dinner</label>
+                <label for="MealTypeDinner">Dinner</label />
               </div>
 
               <div class="checkbox-option">
@@ -257,7 +254,7 @@
                   required
                   aria-labelledby="MealTypesLabel"
                 >
-                <label for="MealTypeSnack">Snack</label>
+                <label for="MealTypeSnack">Snack</label />
               </div>
             </div>
           </div>
@@ -340,7 +337,7 @@
       <script>
         document.getElementById('ClientIntakeForm').addEventListener('submit', function (e) {
           const checkboxes = document.getElementsByClassName('meal-type-checkbox');
-          let checked = false;
+          const checkboxes = document.getElementsByClassName('field__checkbox');
 
           for (let checkbox of checkboxes) {
             if (checkbox.checked) {
