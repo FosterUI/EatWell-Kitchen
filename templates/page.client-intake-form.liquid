@@ -114,10 +114,34 @@
 .field__input.error + .error-message {
   display: block;
 }
+
+/* Add styles for form feedback */
+.form__success {
+  background-color: var(--color-success-background);
+  color: var(--color-success-text);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form__error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 {%- endstyle -%}
 
 <div class="customer-form page-width">
   {% form 'customer', customer, class: 'form' %}
+    <div class="form__feedback" style="display: none;"></div>
     {%- if form.posted_successfully? -%}
       <div class="form__success" tabindex="-1" autofocus>
         {% render 'icon-success' %}
@@ -246,13 +270,13 @@
     </div>
 
     <button type="submit" class="button button--primary" id="submitButton">
-    <span class="button-text">{{ 'customer.intake_form.submit' | t }}</span>
-    <span class="button-loading hidden">
-      <svg class="spinner" viewBox="0 0 50 50">
-        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-      </svg>
-    </span>
-  </button>
+      <span class="button-text">{{ 'customer.intake_form.submit' | t }}</span>
+      <span class="button-loading hidden">
+        <svg class="spinner" viewBox="0 0 50 50">
+          <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
+      </span>
+    </button>
   {% endform %}
 </div>
 
