@@ -8,11 +8,64 @@
 {% schema %}
 {
   "name": "Meal Prep Intake Form",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Form Title",
+      "default": "Meal Prep Intake Form"
+    },
+    {
+      "type": "text",
+      "id": "submit_button_text",
+      "label": "Submit Button Text",
+      "default": "Submit"
+    }
+  ],
   "presets": [
     {
-      "name": "Meal Prep Intake"
+      "name": "Meal Prep Intake",
+      "category": "Forms"
     }
   ]
 }
 {% endschema %}
+
+{% stylesheet %}
+.meal-prep-intake-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+.checkbox-group {
+  display: grid;
+  gap: 1em;
+}
+
+.error {
+  color: #d82c0d;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+}
+
+@media screen and (max-width: 749px) {
+  .meal-prep-intake-section {
+    padding: 20px;
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}
+  // React app will handle form functionality
+{% endjavascript %}
