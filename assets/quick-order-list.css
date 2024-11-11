@@ -36,6 +36,10 @@ quick-order-list .quantity__button {
   z-index: 1;
 }
 
+.variant-item__image-container.global-media-settings::after {
+  content: none;
+}
+
 @media screen and (min-width: 990px) {
   .quick-order-list__total {
     position: sticky;
@@ -273,7 +277,7 @@ quick-order-list-remove-button .icon-remove {
   display: block;
 }
 
-.quick-order-list__message svg {
+.quick-order-list__message .svg-wrapper {
   margin-right: 1rem;
   width: 1.3rem;
 }
@@ -283,7 +287,7 @@ quick-order-list-remove-button .icon-remove {
   display: flex;
 }
 
-.quick-order-list-error svg {
+.quick-order-list-error .svg-wrapper {
   flex-shrink: 0;
   width: 1.2rem;
   margin-right: 0.7rem;
@@ -304,6 +308,10 @@ quick-order-list-remove-button .icon-remove {
   .variant-remove-total .loading__spinner {
     left: 2rem;
     top: 1.2rem;
+  }
+
+ .variant-remove-total--empty .loading__spinner {
+    top: -1rem;
   }
 }
 
@@ -340,14 +348,14 @@ quick-order-list-remove-button:hover .icon-remove {
   order: 1;
 }
 
-.variant-item__error-text + svg {
+.variant-item__error-text + .svg-wrapper {
   flex-shrink: 0;
   width: 1.2rem;
   margin-right: 0.5rem;
   margin-top: 0.1rem;
 }
 
-.variant-item__error-text:empty + svg {
+.variant-item__error-text:empty + .svg-wrapper {
   display: none;
 }
 
@@ -440,6 +448,10 @@ quick-order-list-remove-button:hover .icon-remove {
   .quick-order-list__button {
     max-width: 36rem;
   }
+}
+
+.quick-order-list__button-text {
+  text-align: center;
 }
 
 .quick-order-list-total__confirmation {

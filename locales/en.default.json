@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -174,7 +183,9 @@
       "view_full_details": "View full details",
       "xr_button": "View in your space",
       "xr_button_label": "View in your space, loads item in augmented reality window",
-      "include_taxes": "Tax included.",
+      "taxes_included": "Taxes included.",
+      "duties_included": "Duties included.",
+      "duties_and_taxes_included": "Duties and taxes included.",
       "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
     },
     "modal": {
@@ -260,12 +271,7 @@
     "404": {
       "title": "Page not found",
       "subtext": "404"
-    },
-    "customers": {
-      "register": {
-        "success": "Account created successfully! Welcome to EatWell Kitchen."
-      }
-    },
+    }
   },
   "sections": {
     "announcements": {
@@ -295,10 +301,14 @@
       "empty": "Your cart is empty",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart.",
-      "taxes_and_shipping_policy_at_checkout_html": "Taxes, Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
-      "taxes_included_but_shipping_at_checkout": "Tax included and shipping and discounts calculated at checkout",
-      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping</a> and discounts calculated at checkout.",
-      "taxes_and_shipping_at_checkout": "Taxes, discounts and shipping calculated at checkout",
+      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Duties and taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "duties_and_taxes_included_shipping_at_checkout_without_policy": "Duties and taxes included. Discounts and shipping calculated at checkout.",
+      "taxes_included_shipping_at_checkout_with_policy_html": "Taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "taxes_included_shipping_at_checkout_without_policy": "Taxes included. Discounts and shipping calculated at checkout.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Duties included. Taxes, discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Duties included. Taxes, discounts and shipping calculated at checkout.",
+      "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Taxes, discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxes, discounts and shipping calculated at checkout.",
       "headings": {
         "product": "Product",
         "price": "Price",
@@ -491,49 +501,6 @@
       "password": "Password",
       "password_confirm": "Confirm password",
       "submit": "Reset password"
-    },
-    "intake_form": {
-      "profile_updated": "Profile updated successfully!",
-      "error_message": "Please correct the errors below.",
-      "labels": {
-        "name": "Name",
-        "email": "Email",
-        "errors": {
-        "email": {
-          "invalid": "Please enter a valid email address",
-          "taken": "This email is already associated with an account",
-          "blank": "Email cannot be blank"
-        }
-      },
-        "address": "Address",
-        "phone": "Phone",
-        "allergies": "Allergies",
-        "dietary_restrictions": "Dietary Restrictions",
-        "preferred_meal_types": "Preferred Meal Types",
-        "purchase_frequency": "Purchase Frequency"
-      },
-      "placeholders": {
-        "select_dietary": "Select dietary preference",
-        "select_frequency": "Select frequency"
-      },
-      "dietary_options": {
-        "none": "None",
-        "vegetarian": "Vegetarian",
-        "vegan": "Vegan",
-        "gluten_free": "Gluten-Free",
-        "keto": "Keto"
-      },
-      "meal_types": {
-        "breakfast": "Breakfast",
-        "lunch": "Lunch",
-        "dinner": "Dinner"
-      },
-      "frequency_options": {
-        "weekly": "Weekly",
-        "biweekly": "Bi-Weekly",
-        "monthly": "Monthly"
-      },
-      "submit": "Save Profile"
     }
   },
   "gift_cards": {
