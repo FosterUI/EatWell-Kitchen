@@ -136,6 +136,29 @@
           {%- endif -%}
         {%- endif -%}
       {% endpaginate %}
+
+      {% comment %}
+        Intake form for customer meal prep details.
+        This section checks if a customer is logged in.
+        If a customer is logged in, it creates a root div element with id "root".
+        It then loads a JavaScript module from a specified URL.
+        The inline script imports React's createRoot function and a custom App component.
+        It initializes a React root on the "root" div and renders the App component.
+      {% endcomment %}
+
+      {% if customer %}
+        <div id="root"></div>
+        <script type="module" src="https://{your-app-url}/entry/client"></script>
+
+        <script type="module">
+          import { createRoot } from 'react-dom/client';
+          import App from '~/components/App';
+
+          const root = createRoot(document.getElementById('root') as HTMLElement);
+          root.render(<App />);
+        </script>
+      {% endif %}
+      {%  comment  %} end custom react component {% endcomment %}
     </div>
 
     <div>
