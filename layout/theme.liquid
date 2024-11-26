@@ -35,6 +35,11 @@
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
 
+    {% comment %} CUSTOM: Shopify API ajax for submission of the Meal Prep Intake Formt {% endcomment %}
+    {%- if template == 'page.intake-form' -%}
+      <script src="{{ 'intake-form.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
