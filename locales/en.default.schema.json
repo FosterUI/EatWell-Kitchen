@@ -3425,6 +3425,9 @@
       "presets": {
         "name": "Collapsible content"
       }
+    },
+    "intake-form": {
+      "name": "Intake Form"
     }
   }
 }
