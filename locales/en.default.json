@@ -224,6 +224,28 @@
     }
   },
   "templates": {
+    "intake_form": {
+      "form": {
+        "name": "Full Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "address": "Address",
+        "allergies": "Allergies",
+        "dietary_restrictions": "Dietary Restrictions",
+        "monthly_meals": "Would you like monthly meals?",
+        "yes": "Yes",
+        "no": "No",
+        "maybe": "Maybe",
+        "meal_types": "What type of meals would you like?",
+        "breakfast": "Breakfast",
+        "lunch": "Lunch",
+        "dinner": "Dinner",
+        "snack": "Snacks",
+        "dislikes_likes": "Food Likes and Dislikes",
+        "comment": "Additional Information",
+        "send": "Send"
+      }
+    },
     "search": {
       "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
       "page": "Page",
@@ -267,9 +289,6 @@
         "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
         "error_heading": "Please adjust the following:"
       }
-    },
-      "intake_form": {
-        
     },
     "404": {
       "title": "Page not found",

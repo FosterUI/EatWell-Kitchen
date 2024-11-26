@@ -7,12 +7,12 @@
               autocomplete="name"
               type="text"
               id="ContactForm-name"
-              name="contact[{{ 'templates.meal_prep.form.name' | t }}]"
+              name="contact[{{ 'templates.intake_form.form.name' | t }}]"
               value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-              placeholder="{{ 'templates.meal_prep.form.name' | t }}"
+              placeholder="{{ 'templates.intake_form.form.name' | t }}"
               required
             >
-            <label class="field__label" for="ContactForm-name">{{ 'templates.meal_prep.form.name' | t }}
+            <label class="field__label" for="ContactForm-name">{{ 'templates.intake_form.form.name' | t }}
               <span aria-hidden="true">*</span>
             </label>
           </div>
@@ -32,23 +32,13 @@
                 aria-invalid="true"
                 aria-describedby="ContactForm-email-error"
               {% endif %}
-              placeholder="{{ 'templates.meal_prep.form.email' | t }}"
+              placeholder="{{ 'templates.intake_form.form.email' | t }}"
               required
             >
             <label class="field__label" for="ContactForm-email">
-              {{- 'templates.meal_prep.form.email' | t }}
+              {{- 'templates.intake_form.form.email' | t }}
               <span aria-hidden="true">*</span></label
             >
-            {%- if form.errors contains 'email' -%}
-              <small class="contact__field-error" id="ContactForm-email-error">
-                <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
-                <span class="form__message">
-                  {%- render 'icon-error' -%}
-                  {{- form.errors.translated_fields.email | capitalize }}
-                  {{ form.errors.messages.email -}}
-                </span>
-              </small>
-            {%- endif -%}
           </div>
         </div>
         {% comment %} Phone field {% endcomment %}
@@ -58,13 +48,13 @@
             id="ContactForm-phone"
             class="field__input"
             autocomplete="tel"
-            name="contact[{{ 'templates.meal_prep.form.phone' | t }}]"
+            name="contact[{{ 'templates.intake_form.form.phone' | t }}]"
             pattern="[0-9\-]*"
             value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-            placeholder="{{ 'templates.meal_prep.form.phone' | t }}"
+            placeholder="{{ 'templates.intake_form.form.phone' | t }}"
             required
           >
-          <label class="field__label" for="ContactForm-phone">{{ 'templates.meal_prep.form.phone' | t }}
+          <label class="field__label" for="ContactForm-phone">{{ 'templates.intake_form.form.phone' | t }}
             <span aria-hidden="true">*</span>
           </label>
         </div>
@@ -74,13 +64,13 @@
             rows="10"
             id="ContactForm-address"
             class="text-area field__input"
-            name="contact[{{ 'templates.meal_prep.form.address' | t }}]"
-            placeholder="{{ 'templates.meal_prep.form.address' | t }}"
+            name="contact[{{ 'templates.intake_form.form.address' | t }}]"
+            placeholder="{{ 'templates.intake_form.form.address' | t }}"
             required
           >
             {{- form.body -}}
           </textarea>
-          <label class="form__label field__label" for="ContactForm-address"> {{ 'templates.meal_prep.form.address' | t }} <span aria-hidden="true"> *</span>
+          <label class="form__label field__label" for="ContactForm-address"> {{ 'templates.intake_form.form.address' | t }} <span aria-hidden="true"> *</span>
           </label>
         </div>
         {% comment %} Allergies field {% endcomment %}
@@ -89,13 +79,13 @@
             rows="10"
             id="ContactForm-allergies"
             class="text-area field__input"
-            name="contact[{{ 'templates.meal_prep.form.allergies' | t }}]"
-            placeholder="{{ 'templates.meal_prep.form.allergies' | t }}"
+            name="contact[{{ 'templates.intake_form.form.allergies' | t }}]"
+            placeholder="{{ 'templates.intake_form.form.allergies' | t }}"
             required
           >
             {{- form.body -}}
           </textarea>
-          <label class="form__label field__label" for="ContactForm-allergies"> {{ 'templates.meal_prep.form.allergies' | t }} <span aria-hidden="true"> *</span>
+          <label class="form__label field__label" for="ContactForm-allergies"> {{ 'templates.intake_form.form.allergies' | t }} <span aria-hidden="true"> *</span>
           </label>
         </div>
         {% comment %} Dietary restrictions field {% endcomment %}
@@ -104,52 +94,52 @@
             rows="10"
             id="ContactForm-dietary-restrictions"
             class="text-area field__input"
-            name="contact[{{ 'templates.meal_prep.form.dietary_restrictions' | t }}]"
-            placeholder="{{ 'templates.meal_prep.form.dietary_restrictions' | t }}"
+            name="contact[{{ 'templates.intake_form.form.dietary_restrictions' | t }}]"
+            placeholder="{{ 'templates.intake_form.form.dietary_restrictions' | t }}"
             required
           >
             {{- form.body -}}
           </textarea>
-          <label class="form__label field__label" for="ContactForm-dietary-restrictions"> {{ 'templates.meal_prep.form.dietary_restrictions' | t }} <span aria-hidden="true"> *</span>
+          <label class="form__label field__label" for="ContactForm-dietary-restrictions"> {{ 'templates.intake_form.form.dietary_restrictions' | t }} <span aria-hidden="true"> *</span>
           </label>
         </div>
         {% comment %} Monthly meals? field {% endcomment %}
         <fieldset>
-          <legend>{{ 'templates.meal_prep.form.monthly_meals' | t }}</legend>
+          <legend>{{ 'templates.intake_form.form.monthly_meals' | t }}</legend>
           <div role="radiogroup" aria-labelledby="monthly-meals-label">
             <div>
-              <input type="radio" name="contact[{{ 'templates.meal_prep.form.monthly_meals' | t }}]" value="Yes" id="ContactForm-yes">
-              <label for="ContactForm-yes">{{ 'templates.meal_prep.form.yes' | t }}</label>
+              <input type="radio" name="contact[{{ 'templates.intake_form.form.monthly_meals' | t }}]" value="Yes" id="ContactForm-yes">
+              <label for="ContactForm-yes">{{ 'templates.intake_form.form.yes' | t }}</label>
             </div>
             <div>
-              <input type="radio" name="contact[{{ 'templates.meal_prep.form.monthly_meals' | t }}]" value="No" id="ContactForm-no">
-              <label for="ContactForm-no">{{ 'templates.meal_prep.form.no' | t }}</label>
+              <input type="radio" name="contact[{{ 'templates.intake_form.form.monthly_meals' | t }}]" value="No" id="ContactForm-no">
+              <label for="ContactForm-no">{{ 'templates.intake_form.form.no' | t }}</label>
             </div>
             <div>
-              <input type="radio" name="contact[{{ 'templates.meal_prep.form.monthly_meals' | t }}]" value="Maybe" id="ContactForm-maybe">
-              <label for="ContactForm-maybe">{{ 'templates.meal_prep.form.maybe' | t }}</label>
+              <input type="radio" name="contact[{{ 'templates.intake_form.form.monthly_meals' | t }}]" value="Maybe" id="ContactForm-maybe">
+              <label for="ContactForm-maybe">{{ 'templates.intake_form.form.maybe' | t }}</label>
             </div>
           </div>
         </fieldset>
         {% comment %} Meal types field {% endcomment %}
         <div class="field">
           <fieldset>
-            <legend>{{ 'templates.meal_prep.form.meal_types' | t }}</legend>
+            <legend>{{ 'templates.intake_form.form.meal_types' | t }}</legend>
             <div>
-              <input type="checkbox" id="ContactForm-meals-breakfast" name="contact[{{ 'templates.meal_prep.form.breakfast' | t }}]" value="Breakfast">
-              <label for="ContactForm-meals-breakfast">{{ 'templates.meal_prep.form.breakfast' | t }}</label>
+              <input type="checkbox" id="ContactForm-meals-breakfast" name="contact[{{ 'templates.intake_form.form.breakfast' | t }}]" value="Breakfast">
+              <label for="ContactForm-meals-breakfast">{{ 'templates.intake_form.form.breakfast' | t }}</label>
             </div>
             <div>
-              <input type="checkbox" id="ContactForm-meals-lunch" name="contact[{{ 'templates.meal_prep.form.lunch' | t }}]" value="Lunch">
-              <label for="ContactForm-meals-lunch">{{ 'templates.meal_prep.form.lunch' | t }}</label>
+              <input type="checkbox" id="ContactForm-meals-lunch" name="contact[{{ 'templates.intake_form.form.lunch' | t }}]" value="Lunch">
+              <label for="ContactForm-meals-lunch">{{ 'templates.intake_form.form.lunch' | t }}</label>
             </div>
             <div>
-              <input type="checkbox" id="ContactForm-meals-dinner" name="contact[{{ 'templates.meal_prep.form.dinner' | t }}]" value="Dinner" {% if form.meals contains 'Dinner' %}checked{% endif %}>
-              <label for="ContactForm-meals-dinner">{{ 'templates.meal_prep.form.dinner' | t }}</label>
+              <input type="checkbox" id="ContactForm-meals-dinner" name="contact[{{ 'templates.intake_form.form.dinner' | t }}]" value="Dinner" {% if form.meals contains 'Dinner' %}checked{% endif %}>
+              <label for="ContactForm-meals-dinner">{{ 'templates.intake_form.form.dinner' | t }}</label>
             </div>
             <div>
-              <input type="checkbox" id="ContactForm-meals-snack" name="contact[{{ 'templates.meal_prep.form.snack' | t }}]" value="Snack" {% if form.meals contains 'Snack' %}checked{% endif %}>
-              <label for="ContactForm-meals-snack">{{ 'templates.meal_prep.form.snack' | t }}</label>
+              <input type="checkbox" id="ContactForm-meals-snack" name="contact[{{ 'templates.intake_form.form.snack' | t }}]" value="Snack" {% if form.meals contains 'Snack' %}checked{% endif %}>
+              <label for="ContactForm-meals-snack">{{ 'templates.intake_form.form.snack' | t }}</label>
             </div>
           </fieldset>
         </div>
@@ -159,12 +149,12 @@
             rows="10"
             id="ContactForm-likes-dislikes"
             class="text-area field__input"
-            name="contact[{{ 'templates.meal_prep.form.dislikes_likes' | t }}]"
-            placeholder="{{ 'templates.meal_prep.form.dislikes_likes' | t }}"
+            name="contact[{{ 'templates.intake_form.form.dislikes_likes' | t }}]"
+            placeholder="{{ 'templates.intake_form.form.dislikes_likes' | t }}"
           >
             {{- form.body -}}
           </textarea>
-          <label class="form__label field__label" for="ContactForm-likes-dislikes"> {{- 'templates.meal_prep.form.dislikes_likes' | t -}}
+          <label class="form__label field__label" for="ContactForm-likes-dislikes"> {{- 'templates.intake_form.form.dislikes_likes' | t -}}
           </label>
         </div>
         {% comment %} Additional information field {% endcomment %}
@@ -173,19 +163,19 @@
             rows="10"
             id="ContactForm-body"
             class="text-area field__input"
-            name="contact[{{ 'templates.meal_prep.form.comment' | t }}]"
-            placeholder="{{ 'templates.meal_prep.form.comment' | t }}"
+            name="contact[{{ 'templates.intake_form.form.comment' | t }}]"
+            placeholder="{{ 'templates.intake_form.form.comment' | t }}"
           >
             {{- form.body -}}
           </textarea>
           <label class="form__label field__label" for="ContactForm-body">
-            {{- 'templates.meal_prep.form.comment' | t -}}
+            {{- 'templates.intake_form.form.comment' | t -}}
           </label>
         </div>
         {% comment %} Send button {% endcomment %}
         <div class="contact__button">
           <button type="submit" class="button">
-            {{ 'templates.meal_prep.form.send' | t }}
+            {{ 'templates.intake_form.form.send' | t }}
           </button>
         </div>
 </form>
