@@ -1,92 +1,94 @@
-document.getElementById('meal-prep-intake-form').addEventListener('submit', async function (e) {
-    /**
- * ====================================================================
- * Intake Form Submission Script
- * ====================================================================
- * 
- * Purpose:
- * This script handles the submission of the Meal Prep Intake Form. 
- * It collects customer input from the form, validates it (where applicable), 
- * and sends the data to Shopify's Admin API to create a Draft Order.
- * 
- * Key Features:
- * 1. **Form Submission Handling**:
- *    - Prevents default form submission behavior.
- *    - Collects data from form fields (e.g., dietary preferences, allergies).
- *
- * 2. **Draft Order Creation**:
- *    - Sends a POST request to Shopify's Admin API to create a Draft Order.
- *    - Includes customer preferences as line item properties for review by the client.
- *
- * 3. **Error Handling**:
- *    - Displays alerts for successful or failed submissions.
- *    - Logs errors to the console for debugging purposes.
- *
- * 4. **Validation**:
- *    - Ensures required fields are filled before submission.
- *
- * Usage Instructions:
- * 1. Place this file in your theme's `assets` folder (e.g., `assets/intake-form.js`).
- * 2. Link it in your theme's `layout/theme.liquid` file using:
- *      <script src="{{ 'intake-form.js' | asset_url }}"></script>
- * 3. Ensure you have created a private app in Shopify Admin with access to 
- *    the Draft Orders API and obtained an API access token.
- *
- * Customization Notes:
- * - Modify the `draftOrderData` object to include additional fields or properties.
- * - Update error handling logic as needed for your specific use case.
- *
- * Security Notes:
- * - DO NOT expose sensitive API keys or access tokens in client-side JavaScript.
- *   Instead, use a server-side solution (e.g., a middleware) to securely handle 
- *   API requests if this script will be public-facing.
- *
- * ====================================================================
- */
-    
-    e.preventDefault();
-  
-    // Collect form data
-    const dietaryPreferences = document.getElementById('diet').value;
-    const allergies = document.getElementById('allergies').value;
-    const preferredMeals = document.getElementById('meals').value;
-  
-    // Define draft order data
-    const draftOrderData = {
-      draft_order: {
-        line_items: [
-          {
-            title: "Meal Prep Intake",
-            quantity: 1,
-            properties: {
-              "Dietary Preferences": dietaryPreferences,
-              "Allergies": allergies,
-              "Preferred Meals": preferredMeals
+// Meal Prep Intake Form Submission Handler
+
+// This script handles the submission of the meal prep intake form.
+// It collects form data, processes it, and sends it to a server endpoint.
+
+// Event listener for when the DOM content is fully loaded
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the form element
+    const form = document.getElementById('meal-prep-intake-form');
+
+    // Exit if the form is not found
+    if (!form) return;
+
+    // Add submit event listener to the form
+    form.addEventListener('submit', async function (e) {
+        // Prevent the default form submission
+        e.preventDefault();
+
+        // Collect and process form data
+        const formData = new FormData(form);
+        const data = {};
+
+        // Convert FormData to a plain object, cleaning up field names
+        for (const [key, value] of formData.entries()) {
+            const cleanKey = key.replace('contact[', '').replace(']', '');
+            data[cleanKey] = value;
+        }
+
+        // Collect selected meal types from checkboxes
+        const meals = [];
+        ['breakfast', 'lunch', 'dinner', 'snack'].forEach(meal => {
+            const checkbox = document.getElementById(`ContactForm-meals-${meal}`);
+            if (checkbox && checkbox.checked) {
+                meals.push(meal);
             }
-          }
-        ],
-        note: "Customer meal preferences for review."
-      }
-    };
-  
-    try {
-      // Send data to Shopify Admin API (requires private app with API access)
-      const response = await fetch('/admin/api/2024-01/draft_orders.json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': 'your-access-token'
-        },
-        body: JSON.stringify(draftOrderData)
-      });
-  
-      if (response.ok) {
-        alert('Preferences submitted successfully!');
-      } else {
-        alert('Failed to submit preferences.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred while submitting preferences.');
-    }
-  });
+        });
+        data.meals = meals;
+
+        try {
+            // Attempt to send data to the server
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('meal-prep-intake-form');
+                if (!form) return;
+
+                form.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const data = {};
+
+                    // Convert form data to object
+                    for (const [key, value] of formData.entries()) {
+                        // Remove the 'contact[' and ']' from the field names
+                        const cleanKey = key.replace('contact[', '').replace(']', '');
+                        data[cleanKey] = value;
+                    }
+
+                    // Get checkbox values for meals
+                    const meals = [];
+                    ['breakfast', 'lunch', 'dinner', 'snack'].forEach(meal => {
+                        const checkbox = document.getElementById(`ContactForm-meals-${meal}`);
+                        if (checkbox && checkbox.checked) {
+                            meals.push(meal);
+                        }
+                    });
+                    data.meals = meals;
+
+                    try {
+                        // Send data to your server endpoint
+                        const response = await fetch('/apps/meal-prep/submit', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        if (response.ok) {
+                            // Clear form
+                            form.reset();
+
+                            // Show success message
+                            alert('Thank you! Your meal preferences have been submitted successfully.');
+                        } else {
+                            throw new Error('Failed to submit form');
+                        }
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        alert('Sorry, there was an error submitting your preferences. Please try again.');
+                    }
+                });
+            });
