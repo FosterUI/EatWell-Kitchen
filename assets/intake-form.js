@@ -39,56 +39,34 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             // Attempt to send data to the server
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const form = document.getElementById('meal-prep-intake-form');
-                if (!form) return;
+            // Removed duplicate code block
 
-                form.addEventListener('submit', async function (e) {
-                    e.preventDefault();
-
-                    // Collect form data
-                    const formData = new FormData(form);
-                    const data = {};
-
-                    // Convert form data to object
-                    for (const [key, value] of formData.entries()) {
-                        // Remove the 'contact[' and ']' from the field names
-                        const cleanKey = key.replace('contact[', '').replace(']', '');
-                        data[cleanKey] = value;
-                    }
-
-                    // Get checkbox values for meals
-                    const meals = [];
-                    ['breakfast', 'lunch', 'dinner', 'snack'].forEach(meal => {
-                        const checkbox = document.getElementById(`ContactForm-meals-${meal}`);
-                        if (checkbox && checkbox.checked) {
-                            meals.push(meal);
-                        }
-                    });
-                    data.meals = meals;
-
-                    try {
-                        // Send data to your server endpoint
-                        const response = await fetch('/apps/meal-prep/submit', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(data)
-                        });
-
-                        if (response.ok) {
-                            // Clear form
-                            form.reset();
-
-                            // Show success message
-                            alert('Thank you! Your meal preferences have been submitted successfully.');
-                        } else {
-                            throw new Error('Failed to submit form');
-                        }
-                    } catch (error) {
-                        console.error('Error submitting form:', error);
-                        alert('Sorry, there was an error submitting your preferences. Please try again.');
-                    }
+            try {
+                // Send data to your server endpoint
+                const response = await fetch('/apps/meal-prep/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
                 });
-            });
+
+                if (response.ok) {
+                    // Clear form
+                    form.reset();
+
+                    // Show success message
+                    alert('Thank you! Your meal preferences have been submitted successfully.');
+                } else {
+                    throw new Error('Failed to submit form');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Sorry, there was an error submitting your preferences. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Sorry, there was an error submitting your preferences. Please try again.');
+        }
+    }); // Close submit event listener
+}); // Close DOMContentLoaded event listener
