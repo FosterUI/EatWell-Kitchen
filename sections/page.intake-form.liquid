@@ -1,3 +1,58 @@
+{% comment %}
+====================================================================
+Meal Prep Intake Form Template
+====================================================================
+
+Purpose:
+This template is designed to collect customer information and meal 
+preferences for a customized meal prep service. It allows customers 
+to submit their personal details, dietary needs, and meal plan 
+preferences directly from a Shopify page. The submitted data is 
+stored as line item properties in Shopify, tying it to the order 
+or cart for review by the client.
+
+Key Features:
+1. **Personal Information Fields**:
+   - First Name, Last Name, Email: Prefilled from Shopify's customer data.
+   - Phone: Validated for USA format (xxx-xxx-xxxx).
+   - Address: Captures customer address for profile updates.
+
+2. **Dietary Needs**:
+   - Food Allergies and Dietary Restrictions fields use multi-line 
+     text inputs for detailed responses.
+
+3. **Meal Plan Preferences**:
+   - Customers can select meal types using checkboxes.
+   - Frequency options are provided as radio buttons.
+
+4. **Additional Notes**:
+   - A freeform multi-line text field allows customers to provide 
+     any extra information about their preferences.
+
+5. **Validation**:
+   - Required fields ensure critical information is collected.
+   - Input formatting (e.g., phone number pattern) ensures clean data.
+
+6. **Integration with Shopify**:
+   - Uses `properties[...]` to attach submitted data as line item 
+     properties in Shopify orders or cart.
+   - Prefilled fields use Liquid variables such as `customer.first_name`.
+
+Usage Instructions:
+1. Add this file to your theme's `templates` folder as 
+   `page.intake-form.liquid`.
+2. Create a new page in Shopify Admin and assign this template.
+3. Test the form to ensure all fields work as expected and data is 
+   stored correctly in Shopify Admin.
+
+Customization Notes:
+- You can add or modify fields by editing the HTML structure below.
+- Styling can be adjusted in your theme's CSS file or by modifying 
+  the inline styles in this file.
+
+====================================================================
+{% endcomment %}
+
 <form id="meal-prep-intake-form" method="POST" action="/cart/add">
         <div class="contact__fields">
           {% comment %} Name field {% endcomment %}
