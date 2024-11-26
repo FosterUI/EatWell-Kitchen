@@ -36,7 +36,7 @@
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
 
     {% comment %} CUSTOM: Shopify API ajax for submission of the Meal Prep Intake Formt {% endcomment %}
-    {%- if template == 'page.intake-form' -%}
+    {%- if template.name == 'page' and template.suffix == 'intake-form' -%}
       <script src="{{ 'intake-form.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
