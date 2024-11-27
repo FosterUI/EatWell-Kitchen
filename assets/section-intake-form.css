@@ -5,6 +5,14 @@
   padding-right: 0;
 }
 
+.contact.page-width {
+  max-width: var(--page-width);
+}
+
+.contact.page-width--narrow {
+  max-width: var(--narrow-container);
+}
+
 .intake img {
   max-width: 100%;
 }
@@ -19,6 +27,7 @@
 
 .intake .field {
   margin-bottom: 1.5rem;
+  position: relative;
 }
 
 .intake-form__section {
@@ -39,15 +48,18 @@
 
 /* Style for all input fields */
 .intake .field__input {
-  padding: 1.2rem;
+  padding: 1.5rem;
   border: 0.1rem solid rgba(var(--color-foreground), 0.55);
   border-radius: 0.4rem;
   width: 100%;
   transition: box-shadow var(--duration-short) ease;
+  appearance: none;
+  color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-background));
 }
 
 .intake .field__input::placeholder {
-  color: rgba(var(--color-foreground), 0.4);
+  color: transparent;
 }
 
 .intake .field__input:focus {
@@ -93,21 +105,25 @@
 
 /* Field label styling */
 .intake .field__label {
-  font-size: var(--font-size-base);
-  left: calc(var(--grid-desktop-horizontal-spacing) / 2);
-  top: calc(1rem + var(--grid-desktop-vertical-spacing) / 2);
+  font-size: 1.6rem;
+  left: 1.5rem;
+  top: 1.5rem;
   margin-bottom: 0;
   pointer-events: none;
   position: absolute;
   transition: top var(--duration-default) ease,
     font-size var(--duration-default) ease;
+  color: rgba(var(--color-foreground), 0.75);
+  background-color: rgb(var(--color-background));
+  padding: 0 0.5rem;
+  z-index: 1;
 }
 
 .intake .field__input:focus ~ .field__label,
 .intake .field__input:not(:placeholder-shown) ~ .field__label {
   font-size: 1rem;
-  top: 0.3em;
-  left: calc(var(--grid-desktop-horizontal-spacing) / 2);
+  top: -0.4rem;
+  letter-spacing: 0.04rem;
 }
 
 /* Fieldset styling */
