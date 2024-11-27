@@ -85,12 +85,9 @@
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             maxlength="12"
             required
-            aria-describedby="phone-format-description"
           >
           <label class="field__label" for="IntakeForm-phone">{{ 'templates.intake.form.phone_label' | t }}<span aria-hidden="true">*</span></label>
-          <small id="phone-format-description" class="field__description">
-            {{ 'templates.intake.form.phone_format_description' | t }}
-          </small>
+          <small class="field__description">Format: xxx-xxx-xxxx</small>
         </div>
 
         <div class="field">
