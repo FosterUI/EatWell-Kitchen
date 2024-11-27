@@ -4,18 +4,107 @@
   padding: 0;
 }
 
-@media screen and (min-width: 750px) {
-  .intake {
-    padding: 0 5rem;
-  }
+.intake img {
+  max-width: 100%;
+}
+
+.intake .form__message {
+  align-items: flex-start;
+}
+
+.intake .icon-success {
+  margin-top: 0.2rem;
+}
+
+.intake .field {
+  margin-bottom: 1.5rem;
 }
 
 .intake-form__section {
+  margin-top: 3rem;
   margin-bottom: 3rem;
 }
 
 .intake-form__section-title {
   margin-bottom: 2rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.intake__fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Style for phone input */
+.intake .phone-field input {
+  width: 100%;
+  padding: 1.2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
+  border-radius: 0.4rem;
+}
+
+/* Style for meal type checkboxes */
+.meal-types-field {
+  display: grid;
+  gap: 1rem;
+}
+
+.meal-types-field label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Style for delivery frequency radio buttons */
+.delivery-frequency-field {
+  display: grid;
+  gap: 1rem;
+}
+
+.delivery-frequency-field label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Textarea styling */
+.intake textarea {
+  width: 100%;
+  padding: 1.2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
+  border-radius: 0.4rem;
+  min-height: 10rem;
+  resize: vertical;
+}
+
+.intake__button {
+  margin-top: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .intake {
+    padding: 0 5rem;
+  }
+
+  .intake .field {
+    margin-bottom: 2rem;
+  }
+
+  .intake__fields {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .intake__button {
+    margin-top: 4rem;
+  }
+
+  /* Full width fields */
+  .intake .field--full {
+    grid-column: 1 / -1;
+  }
 }
 
 .contact__fields {
