@@ -271,6 +271,30 @@
     "404": {
       "title": "Page not found",
       "subtext": "404"
+    },
+    "intake_form": {
+      "form": {
+        "title": "Meal Prep Intake Form",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "address": "Delivery Address",
+        "allergies": "Food Allergies",
+        "dietary_restrictions": "Dietary Restrictions",
+        "monthly_meals": "Would you like monthly meal prep?",
+        "yes": "Yes",
+        "no": "No",
+        "maybe": "Maybe",
+        "meal_types": "Which meals would you like prepared?",
+        "breakfast": "Breakfast",
+        "lunch": "Lunch",
+        "dinner": "Dinner",
+        "snack": "Snacks",
+        "dislikes_likes": "Food Likes and Dislikes",
+        "comment": "Additional Information",
+        "post_success": "Thank you for submitting your meal prep preferences!",
+        "send": "Submit Form"
+      }
     }
   },
   "sections": {
