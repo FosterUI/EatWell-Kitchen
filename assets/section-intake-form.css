@@ -74,20 +74,22 @@
 
 .phone-field .field__description {
   position: absolute;
-  right: 1.5rem;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   font-size: 1.2rem;
-  color: rgba(var(--color-foreground), 0.75);
-  text-align: right;
+  color: rgba(var(--color-foreground), 0.6);
+  text-align: center;
   pointer-events: none;
+  width: 100%;
 }
 
 /* Style for meal type checkboxes and radio buttons */
 .meal-types-field fieldset,
 .delivery-frequency-field fieldset {
-  border: none;
-  padding: 0;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
+  border-radius: 0.4rem;
+  padding: 1.5rem;
   margin: 0;
 }
 
@@ -99,6 +101,11 @@
   cursor: pointer;
   margin-bottom: 1rem;
   font-size: 1.4rem;
+}
+
+.meal-types-field label:last-child,
+.delivery-frequency-field label:last-child {
+  margin-bottom: 0;
 }
 
 .meal-types-field input[type="checkbox"],
@@ -146,6 +153,9 @@
   font-weight: 500;
   margin-bottom: 1.5rem;
   color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-background));
+  padding: 0 0.5rem;
+  margin: -2.5rem 0 1.5rem 1rem;
 }
 
 @media screen and (min-width: 750px) {
