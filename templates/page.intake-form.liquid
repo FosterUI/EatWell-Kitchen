@@ -53,62 +53,27 @@
   ====================================================================
 {% endcomment %}
 
-{% comment %}
-  ====================================================================
-  Meal Prep Intake Form Template
-  ====================================================================
+{%- form 'contact', customer -%}
+  {% comment %} Better error handling {% endcomment %}
+  {% if form.errors %}
+    <div class="form-status-list" role="alert">
+      <ul>
+        {% for error in form.errors %}
+          <li>
+            {% if error == 'form' %}
+              {{ form.errors.messages[error] }}
+            {% else %}
+              {{ error }} - {{ form.errors.messages[error] }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  
+  <input type="hidden" name="form_type" value="customer_contact" />
+  <input type="hidden" name="utf8" value="✓" />
 
-  Purpose:
-  This template is designed to collect customer information and meal
-  preferences for a customized meal prep service. It allows customers
-  to submit their personal details, dietary needs, and meal plan
-  preferences directly from a Shopify page. The submitted data is
-  stored as line item properties in Shopify, tying it to the order
-  or cart for review by the client.
-
-  Key Features:
-  1. **Personal Information Fields**:
-     - First Name, Last Name, Email: Prefilled from Shopify's customer data.
-     - Phone: Validated for USA format (xxx-xxx-xxxx).
-     - Address: Captures customer address for profile updates.
-
-  2. **Dietary Needs**:
-     - Food Allergies and Dietary Restrictions fields use multi-line
-       text inputs for detailed responses.
-
-  3. **Meal Plan Preferences**:
-     - Customers can select meal types using checkboxes.
-     - Frequency options are provided as radio buttons.
-
-  4. **Additional Notes**:
-     - A freeform multi-line text field allows customers to provide
-       any extra information about their preferences.
-
-  5. **Validation**:
-     - Required fields ensure critical information is collected.
-     - Input formatting (e.g., phone number pattern) ensures clean data.
-
-  6. **Integration with Shopify**:
-     - Uses `properties[...]` to attach submitted data as line item
-       properties in Shopify orders or cart.
-     - Prefilled fields use Liquid variables such as `customer.first_name`.
-
-  Usage Instructions:
-  1. Add this file to your theme's `templates` folder as
-     `page.intake-form.liquid`.
-  2. Create a new page in Shopify Admin and assign this template.
-  3. Test the form to ensure all fields work as expected and data is
-     stored correctly in Shopify Admin.
-
-  Customization Notes:
-  - You can add or modify fields by editing the HTML structure below.
-  - Styling can be adjusted in your theme's CSS file or by modifying
-    the inline styles in this file.
-
-  ====================================================================
-{% endcomment %}
-
-<form id="meal-prep-intake-form" method="POST" action="/cart/add" class="intake-form">
   <div class="contact__fields">
     {% comment %} Name field {% endcomment %}
     <div class="field">
@@ -176,12 +141,10 @@
       rows="10"
       id="ContactForm-address"
       class="text-area field__input"
-      name="contact[{{ 'templates.intake_form.form.address' | t }}]"
+      name="contact[address]"
       placeholder="{{ 'templates.intake_form.form.address' | t }}"
       required
-    >
-              {{- form.body -}}
-            </textarea>
+    >{{- form.address -}}</textarea>
     <label class="form__label field__label" for="ContactForm-address">
       {{ 'templates.intake_form.form.address' | t }}
       <span aria-hidden="true"> *</span>
@@ -191,16 +154,14 @@
   <div class="field">
     <textarea
       rows="10"
-      id="ContactForm-allergies"
+      id="ContactForm-allergies" 
       class="text-area field__input"
-      name="contact[{{ 'templates.intake_form.form.allergies' | t }}]"
-      placeholder="{{ 'templates.intake_form.form.allergies' | t }}"
+      name="contact[allergies]"
+      placeholder="{{ 'templates.intake_form.form.allergies' | escape }}"
       required
-    >
-              {{- form.body -}}
-            </textarea>
+    >{{- form.allergies -}}</textarea>
     <label class="form__label field__label" for="ContactForm-allergies">
-      {{ 'templates.intake_form.form.allergies' | t }}
+      {{ 'templates.intake_form.form.allergies' | escape }}
       <span aria-hidden="true"> *</span>
     </label>
   </div>
@@ -213,9 +174,7 @@
       name="contact[{{ 'templates.intake_form.form.dietary_restrictions' | t }}]"
       placeholder="{{ 'templates.intake_form.form.dietary_restrictions' | t }}"
       required
-    >
-              {{- form.body -}}
-            </textarea>
+    >{{- form.body -}}</textarea>
     <label class="form__label field__label" for="ContactForm-dietary-restrictions">
       {{ 'templates.intake_form.form.dietary_restrictions' | t }}
       <span aria-hidden="true"> *</span>
@@ -310,9 +269,7 @@
       class="text-area field__input"
       name="contact[{{ 'templates.intake_form.form.dislikes_likes' | t }}]"
       placeholder="{{ 'templates.intake_form.form.dislikes_likes' | t }}"
-    >
-              {{- form.body -}}
-            </textarea>
+    >{{- form.body -}}</textarea>
     <label class="form__label field__label" for="ContactForm-likes-dislikes">
       {{- 'templates.intake_form.form.dislikes_likes' | t -}}
     </label>
@@ -325,20 +282,25 @@
       class="text-area field__input"
       name="contact[{{ 'templates.intake_form.form.comment' | t }}]"
       placeholder="{{ 'templates.intake_form.form.comment' | t }}"
-    >
-              {{- form.body -}}
-            </textarea>
+    >{{- form.body -}}</textarea>
     <label class="form__label field__label" for="ContactForm-body">
       {{- 'templates.intake_form.form.comment' | t -}}
     </label>
   </div>
+  {% if form.posted_successfully? %}
+    <div class="form-status-list form__message" role="status">
+      <h3 class="form-status-list__title">
+        {{ 'templates.intake_form.form.post_success' | t }}
+      </h3>
+    </div>
+  {% endif %}
   {% comment %} Send button {% endcomment %}
   <div class="contact__button">
     <button type="submit" class="button">
-      {{ 'templates.intake_form.form.send' | t }}
+      {{ 'templates.intake_form.form.send' | escape }}
     </button>
   </div>
-</form>
+{%- endform -%}
 
 {% schema %}
 {
