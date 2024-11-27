@@ -1,0 +1,367 @@
+{{ 'section-intake-form.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .intake-form__section {
+    margin-bottom: 2rem;
+  }
+
+  .intake-form__section-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+
+  .checkbox-group, .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .checkbox-item, .radio-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+{%- endstyle -%}
+
+{%- endstyle -%}
+
+<!-- JavaScript for phone number formatting -->
+<script>
+  // Wait for the DOM to be fully loaded before adding event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the phone input field
+    const phoneInput = document.getElementById('IntakeForm-phone');
+    
+    if (phoneInput) {
+      // Add event listeners for both keyup and blur events
+      phoneInput.addEventListener('input', formatPhoneNumber);
+      phoneInput.addEventListener('blur', validatePhoneNumber);
+      
+      // Format phone number as user types
+      function formatPhoneNumber(e) {
+        // Get the input value and remove all non-numeric characters
+        let input = e.target.value.replace(/\D/g, '');
+        
+        // Limit to 10 digits
+        input = input.substring(0, 10);
+        
+        // Format the number as xxx-xxx-xxxx
+        if (input.length > 0) {
+          if (input.length <= 3) {
+            input = input;
+          } else if (input.length <= 6) {
+            input = input.slice(0, 3) + '-' + input.slice(3);
+          } else {
+            input = input.slice(0, 3) + '-' + input.slice(3, 6) + '-' + input.slice(6);
+          }
+        }
+        
+        // Update the input value
+        e.target.value = input;
+      }
+      
+      // Validate phone number when user leaves the field
+      function validatePhoneNumber(e) {
+        const phoneNumber = e.target.value;
+        const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
+        
+        // Check if the number matches the required format
+        if (phoneNumber && !phonePattern.test(phoneNumber)) {
+          // If invalid, add error class and show message
+          e.target.classList.add('error');
+        } else {
+          // If valid, remove error class
+          e.target.classList.remove('error');
+        }
+      }
+    }
+  });
+</script>
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="intake page-width page-width--narrow section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- else -%}
+      <h2 class="visually-hidden">{{ 'templates.intake.form.title' | t }}</h2>
+    {%- endif -%}
+
+    {%- form 'customer', id: 'IntakeForm', class: 'isolate scroll-trigger animate--slide-in' -%}
+      {%- if form.posted_successfully? -%}
+        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+          {{- 'icon-success.svg' | inline_asset_content -}}
+          {{ 'templates.intake.form.post_success' | t }}
+        </h2>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+            {{- 'icon-error.svg' | inline_asset_content -}}
+            {{ 'templates.intake.form.error_heading' | t }}
+          </h2>
+        </div>
+      {%- endif -%}
+
+      <!-- Personal Information Section -->
+      <div class="intake-form__section">
+        <h3 class="intake-form__section-title">Personal Information</h3>
+        <div class="contact__fields">
+          <div class="field">
+            <input
+              class="field__input"
+              autocomplete="given-name"
+              type="text"
+              id="IntakeForm-firstName"
+              name="customer[first_name]"
+              value="{% if customer %}{{ customer.first_name }}{% endif %}"
+              placeholder="First Name"
+              required
+              style="text-transform: capitalize;"
+            >
+            <label class="field__label" for="IntakeForm-firstName">First Name<span aria-hidden="true">*</span></label>
+          </div>
+
+          <div class="field">
+            <input
+              class="field__input"
+              autocomplete="family-name"
+              type="text"
+              id="IntakeForm-lastName"
+              name="customer[last_name]"
+              value="{% if customer %}{{ customer.last_name }}{% endif %}"
+              placeholder="Last Name"
+              required
+              style="text-transform: capitalize;"
+            >
+            <label class="field__label" for="IntakeForm-lastName">Last Name<span aria-hidden="true">*</span></label>
+          </div>
+
+          <div class="field">
+            <input
+              class="field__input"
+              autocomplete="email"
+              type="email"
+              id="IntakeForm-email"
+              name="customer[email]"
+              value="{% if customer %}{{ customer.email }}{% endif %}"
+              placeholder="Email"
+              required
+              style="text-transform: lowercase;"
+            >
+            <label class="field__label" for="IntakeForm-email">Email<span aria-hidden="true">*</span></label>
+          </div>
+
+          <div class="field">
+            <input
+              class="field__input"
+              type="tel"
+              id="IntakeForm-phone"
+              name="customer[phone]"
+              value="{% if customer %}{{ customer.phone }}{% endif %}"
+              placeholder="Phone (xxx-xxx-xxxx)"
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              maxlength="12"
+              required
+              aria-describedby="phone-format-description"
+            >
+            <label class="field__label" for="IntakeForm-phone">Phone<span aria-hidden="true">*</span></label>
+            <small id="phone-format-description" class="field__description">
+              Format: xxx-xxx-xxxx (dashes will be added automatically)
+            </small>
+          </div>
+
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="IntakeForm-address"
+              name="customer[address1]"
+              value="{% if customer %}{{ customer.default_address.address1 }}{% endif %}"
+              placeholder="Address"
+              required
+            >
+            <label class="field__label" for="IntakeForm-address">Address<span aria-hidden="true">*</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dietary Needs Section -->
+      <div class="intake-form__section">
+        <h3 class="intake-form__section-title">Dietary Needs</h3>
+        <div class="contact__fields">
+          <div class="field">
+            <textarea
+              class="field__input"
+              rows="10"
+              id="IntakeForm-allergies"
+              name="customer[note][allergies]"
+              placeholder="Please list any food allergies you have."
+              required
+            ></textarea>
+            <label class="field__label" for="IntakeForm-allergies">Food Allergies<span aria-hidden="true">*</span></label>
+          </div>
+
+          <div class="field">
+            <textarea
+              class="field__input"
+              rows="10"
+              id="IntakeForm-restrictions"
+              name="customer[note][restrictions]"
+              placeholder="Do you follow any specific diets? (e.g., vegetarian, vegan, gluten-free, keto)"
+              required
+            ></textarea>
+            <label class="field__label" for="IntakeForm-restrictions">Dietary Restrictions<span aria-hidden="true">*</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meal Plan Preferences Section -->
+      <div class="intake-form__section">
+        <h3 class="intake-form__section-title">Meal Plan Preferences</h3>
+        
+        <div class="field">
+          <label class="form__label">Meal Types<span aria-hidden="true">*</span></label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="meal-breakfast" name="customer[note][meal_types][]" value="Breakfast">
+              <label for="meal-breakfast">Breakfast</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="meal-lunch" name="customer[note][meal_types][]" value="Lunch">
+              <label for="meal-lunch">Lunch</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="meal-dinner" name="customer[note][meal_types][]" value="Dinner">
+              <label for="meal-dinner">Dinner</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="meal-snack" name="customer[note][meal_types][]" value="Snack">
+              <label for="meal-snack">Snack</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="form__label">Frequency<span aria-hidden="true">*</span></label>
+          <div class="radio-group">
+            <div class="radio-item">
+              <input type="radio" id="freq-weekly" name="customer[note][frequency]" value="Weekly" required>
+              <label for="freq-weekly">Weekly</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" id="freq-biweekly" name="customer[note][frequency]" value="Bi-weekly">
+              <label for="freq-biweekly">Bi-weekly</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" id="freq-monthly" name="customer[note][frequency]" value="Monthly">
+              <label for="freq-monthly">Monthly</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Notes Section -->
+      <div class="intake-form__section">
+        <h3 class="intake-form__section-title">Additional Notes</h3>
+        <div class="field">
+          <textarea
+            class="field__input"
+            rows="10"
+            id="IntakeForm-notes"
+            name="customer[note][additional_notes]"
+            placeholder="Is there anything else we should know about your meal preferences?"
+          ></textarea>
+          <label class="field__label" for="IntakeForm-notes">Additional Notes</label>
+        </div>
+      </div>
+
+      <div class="contact__button">
+        <button type="submit" class="button">
+          Submit
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Intake Form",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Meal Plan Intake Form",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom.label",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Intake Form"
+    }
+  ]
+}
+{% endschema %}
