@@ -299,7 +299,7 @@
 
 {% schema %}
 {
-  "name": "Intake Form",
+  "name": "t:sections.intake_form.name",
   "tag": "section",
   "class": "section",
   "settings": [
@@ -307,7 +307,7 @@
       "type": "inline_richtext",
       "id": "heading",
       "default": "Meal Plan Intake Form",
-      "label": "Heading"
+      "label": "t:sections.intake_form.settings.heading.label"
     },
     {
       "type": "select",
@@ -358,7 +358,8 @@
   ],
   "presets": [
     {
-      "name": "Intake Form"
+      "name": "t:sections.intake_form.presets.name",
+      "category": "forms"
     }
   ]
 }
