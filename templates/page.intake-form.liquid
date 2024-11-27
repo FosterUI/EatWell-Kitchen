@@ -53,25 +53,26 @@
   ====================================================================
 {% endcomment %}
 
-<div class="page-width page-width--narrow section-{{ section.id }}-padding">
-  <h1 class="main-page-title page-title h0">
-    {{ page.title | escape }}
-  </h1>
-  {%- style -%}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+  }
+{%- endstyle -%}
 
-    @media screen and (min-width: 750px) {
-      .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
-      }
-    }
-  {%- endstyle -%}
-
-  {%- form 'contact', id: 'IntakeForm', class: 'contact' -%}
+<div class="page-width page-width--narrow">
+  <h1 class="main-page-title page-title h0">
+    {{ page.title }}
+  </h1>
+  
+  {%- form 'contact', class: 'contact-form' -%}
     {% comment %} Better error handling {% endcomment %}
     {% if form.errors %}
       <div class="form-status-list" role="alert">
@@ -100,8 +101,8 @@
           autocomplete="name"
           type="text"
           id="ContactForm-name"
-          name="contact[{{ 'templates.intake_form.form.name' | t }}]"
-          value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+          name="contact[name]"
+          value="{% if customer %}{{ customer.name }}{% elsif form.name %}{{ form.name }}{% endif %}"
           placeholder="{{ 'templates.intake_form.form.name' | t }}"
           required
         >
@@ -142,9 +143,9 @@
         id="ContactForm-phone"
         class="field__input"
         autocomplete="tel"
-        name="contact[{{ 'templates.intake_form.form.phone' | t }}]"
+        name="contact[phone]"
         pattern="[0-9\-]*"
-        value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+        value="{% if customer %}{{ customer.phone }}{% elsif form.phone %}{{ form.phone }}{% endif %}"
         placeholder="{{ 'templates.intake_form.form.phone' | t }}"
         required
       >
@@ -189,7 +190,7 @@
         rows="10"
         id="ContactForm-dietary-restrictions"
         class="text-area field__input"
-        name="contact[{{ 'templates.intake_form.form.dietary_restrictions' | t }}]"
+        name="contact[dietary_restrictions]"
         placeholder="{{ 'templates.intake_form.form.dietary_restrictions' | t }}"
         required
       >{{- form.body -}}</textarea>
@@ -201,11 +202,11 @@
     {% comment %} Monthly meals? field {% endcomment %}
     <fieldset>
       <legend>{{ 'templates.intake_form.form.monthly_meals' | t }}</legend>
-      <div role="radiogroup" aria-labelledby="monthly-meals-label">
+      <div role="radiogroup">
         <div>
           <input
             type="radio"
-            name="contact[{{ 'templates.intake_form.form.monthly_meals' | t }}]"
+            name="contact[monthly_meals]"
             value="Yes"
             id="ContactForm-yes"
           >
@@ -214,7 +215,7 @@
         <div>
           <input
             type="radio"
-            name="contact[{{ 'templates.intake_form.form.monthly_meals' | t }}]"
+            name="contact[monthly_meals]"
             value="No"
             id="ContactForm-no"
           >
@@ -223,7 +224,7 @@
         <div>
           <input
             type="radio"
-            name="contact[{{ 'templates.intake_form.form.monthly_meals' | t }}]"
+            name="contact[monthly_meals]"
             value="Maybe"
             id="ContactForm-maybe"
           >
@@ -239,7 +240,7 @@
           <input
             type="checkbox"
             id="ContactForm-meals-breakfast"
-            name="contact[{{ 'templates.intake_form.form.breakfast' | t }}]"
+            name="contact[breakfast]"
             value="Breakfast"
           >
           <label for="ContactForm-meals-breakfast">{{ 'templates.intake_form.form.breakfast' | t }}</label>
@@ -248,7 +249,7 @@
           <input
             type="checkbox"
             id="ContactForm-meals-lunch"
-            name="contact[{{ 'templates.intake_form.form.lunch' | t }}]"
+            name="contact[lunch]"
             value="Lunch"
           >
           <label for="ContactForm-meals-lunch">{{ 'templates.intake_form.form.lunch' | t }}</label>
@@ -257,7 +258,7 @@
           <input
             type="checkbox"
             id="ContactForm-meals-dinner"
-            name="contact[{{ 'templates.intake_form.form.dinner' | t }}]"
+            name="contact[dinner]"
             value="Dinner"
             {% if form.meals contains 'Dinner' %}
               checked
@@ -269,7 +270,7 @@
           <input
             type="checkbox"
             id="ContactForm-meals-snack"
-            name="contact[{{ 'templates.intake_form.form.snack' | t }}]"
+            name="contact[snack]"
             value="Snack"
             {% if form.meals contains 'Snack' %}
               checked
@@ -285,7 +286,7 @@
         rows="10"
         id="ContactForm-likes-dislikes"
         class="text-area field__input"
-        name="contact[{{ 'templates.intake_form.form.dislikes_likes' | t }}]"
+        name="contact[dislikes_likes]"
         placeholder="{{ 'templates.intake_form.form.dislikes_likes' | t }}"
       >{{- form.body -}}</textarea>
       <label class="form__label field__label" for="ContactForm-likes-dislikes">
@@ -298,7 +299,7 @@
         rows="10"
         id="ContactForm-body"
         class="text-area field__input"
-        name="contact[{{ 'templates.intake_form.form.comment' | t }}]"
+        name="contact[comment]"
         placeholder="{{ 'templates.intake_form.form.comment' | t }}"
       >{{- form.body -}}</textarea>
       <label class="form__label field__label" for="ContactForm-body">
@@ -323,48 +324,11 @@
 
 {% schema %}
 {
-  "name": "t:sections.intake-form.name",
-  "tag": "section",
-  "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "name": "Intake Form",
   "settings": [
     {
-      "type": "inline_richtext",
-      "id": "heading",
-      "default": "Contact form",
-      "label": "Heading"
-    },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        }
-      ],
-      "default": "h1",
-      "label": "t:sections.all.heading_size.label"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
-    },
-    {
       "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Padding"
     },
     {
       "type": "range",
@@ -373,7 +337,7 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
+      "label": "Top padding",
       "default": 36
     },
     {
@@ -383,13 +347,8 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
+      "label": "Bottom padding", 
       "default": 36
-    }
-  ],
-  "presets": [
-    {
-      "name": "t:sections.contact-form.presets.name"
     }
   ]
 }
