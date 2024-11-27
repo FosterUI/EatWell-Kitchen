@@ -1,7 +1,8 @@
 .intake {
-  margin: auto;
-  max-width: var(--page-width);
-  padding: 0;
+  margin: 0 auto;
+  max-width: var(--narrow-container);
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .intake img {
@@ -22,7 +23,6 @@
 
 .intake-form__section {
   margin-top: 3rem;
-  margin-bottom: 3rem;
 }
 
 .intake-form__section-title {
@@ -37,12 +37,22 @@
   gap: 1.5rem;
 }
 
-/* Style for phone input */
-.intake .phone-field input {
-  width: 100%;
+/* Style for all input fields */
+.intake .field__input {
   padding: 1.2rem;
   border: 0.1rem solid rgba(var(--color-foreground), 0.55);
   border-radius: 0.4rem;
+  width: 100%;
+  transition: box-shadow var(--duration-short) ease;
+}
+
+.intake .field__input::placeholder {
+  color: rgba(var(--color-foreground), 0.4);
+}
+
+.intake .field__input:focus {
+  box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.55);
+  outline: 0;
 }
 
 /* Style for meal type checkboxes */
@@ -55,6 +65,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  cursor: pointer;
 }
 
 /* Style for delivery frequency radio buttons */
@@ -67,14 +78,11 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  cursor: pointer;
 }
 
 /* Textarea styling */
 .intake textarea {
-  width: 100%;
-  padding: 1.2rem;
-  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
-  border-radius: 0.4rem;
   min-height: 10rem;
   resize: vertical;
 }
@@ -83,11 +91,39 @@
   margin-top: 3rem;
 }
 
-@media screen and (min-width: 750px) {
-  .intake {
-    padding: 0 5rem;
-  }
+/* Field label styling */
+.intake .field__label {
+  font-size: var(--font-size-base);
+  left: calc(var(--grid-desktop-horizontal-spacing) / 2);
+  top: calc(1rem + var(--grid-desktop-vertical-spacing) / 2);
+  margin-bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: top var(--duration-default) ease,
+    font-size var(--duration-default) ease;
+}
 
+.intake .field__input:focus ~ .field__label,
+.intake .field__input:not(:placeholder-shown) ~ .field__label {
+  font-size: 1rem;
+  top: 0.3em;
+  left: calc(var(--grid-desktop-horizontal-spacing) / 2);
+}
+
+/* Fieldset styling */
+.intake fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.intake legend {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 750px) {
   .intake .field {
     margin-bottom: 2rem;
   }

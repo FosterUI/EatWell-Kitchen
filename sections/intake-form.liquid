@@ -40,9 +40,8 @@
             id="IntakeForm-firstName"
             name="customer[first_name]"
             value="{% if customer %}{{ customer.first_name }}{% endif %}"
-            placeholder="{{ 'templates.intake.form.first_name_placeholder' | t }}"
+            placeholder=" "
             required
-            style="text-transform: capitalize;"
           >
           <label class="field__label" for="IntakeForm-firstName">{{ 'templates.intake.form.first_name_label' | t }}<span aria-hidden="true">*</span></label>
         </div>
@@ -55,9 +54,8 @@
             id="IntakeForm-lastName"
             name="customer[last_name]"
             value="{% if customer %}{{ customer.last_name }}{% endif %}"
-            placeholder="{{ 'templates.intake.form.last_name_placeholder' | t }}"
+            placeholder=" "
             required
-            style="text-transform: capitalize;"
           >
           <label class="field__label" for="IntakeForm-lastName">{{ 'templates.intake.form.last_name_label' | t }}<span aria-hidden="true">*</span></label>
         </div>
@@ -70,9 +68,8 @@
             id="IntakeForm-email"
             name="customer[email]"
             value="{% if customer %}{{ customer.email }}{% endif %}"
-            placeholder="{{ 'templates.intake.form.email_placeholder' | t }}"
+            placeholder=" "
             required
-            style="text-transform: lowercase;"
           >
           <label class="field__label" for="IntakeForm-email">{{ 'templates.intake.form.email_label' | t }}<span aria-hidden="true">*</span></label>
         </div>
@@ -84,7 +81,7 @@
             id="IntakeForm-phone"
             name="customer[phone]"
             value="{% if customer %}{{ customer.phone }}{% endif %}"
-            placeholder="{{ 'templates.intake.form.phone_placeholder' | t }}"
+            placeholder=" "
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             maxlength="12"
             required
@@ -103,7 +100,7 @@
             id="IntakeForm-address"
             name="customer[address1]"
             value="{% if customer %}{{ customer.default_address.address1 }}{% endif %}"
-            placeholder="{{ 'templates.intake.form.address_placeholder' | t }}"
+            placeholder=" "
             required
           >
           <label class="field__label" for="IntakeForm-address">{{ 'templates.intake.form.address_label' | t }}<span aria-hidden="true">*</span></label>
@@ -119,7 +116,7 @@
               id="IntakeForm-allergies"
               class="text-area field__input"
               name="customer[note][allergies]"
-              placeholder="{{ 'templates.intake.form.allergies_placeholder' | t }}"
+              placeholder=" "
               required
             >{{ form.allergies }}</textarea>
             <label class="form__label field__label" for="IntakeForm-allergies">
@@ -133,7 +130,7 @@
               id="IntakeForm-restrictions"
               class="text-area field__input"
               name="customer[note][restrictions]"
-              placeholder="{{ 'templates.intake.form.restrictions_placeholder' | t }}"
+              placeholder=" "
               required
             >{{ form.restrictions }}</textarea>
             <label class="form__label field__label" for="IntakeForm-restrictions">
@@ -197,7 +194,7 @@
               id="IntakeForm-notes"
               class="text-area field__input"
               name="customer[note][additional_notes]"
-              placeholder="{{ 'templates.intake.form.notes_placeholder' | t }}"
+              placeholder=" "
             >{{ form.additional_notes }}</textarea>
             <label class="form__label field__label" for="IntakeForm-notes">
               {{ 'templates.intake.form.notes_label' | t }}
