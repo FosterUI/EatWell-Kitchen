@@ -53,7 +53,7 @@
   ====================================================================
 {% endcomment %}
 
-{%- form 'contact', customer -%}
+{%- form 'contact', id: 'IntakeForm', class: 'contact' -%}
   {% comment %} Better error handling {% endcomment %}
   {% if form.errors %}
     <div class="form-status-list" role="alert">
