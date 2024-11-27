@@ -253,6 +253,43 @@
       "suggestions": "Suggestions",
       "pages": "Pages"
     },
+    "intake": {
+      "form": {
+        "personal_info": "Personal Information",
+        "first_name_label": "First Name",
+        "first_name_placeholder": "First Name",
+        "last_name_label": "Last Name",
+        "last_name_placeholder": "Last Name",
+        "email_label": "Email",
+        "email_placeholder": "Email",
+        "phone_label": "Phone",
+        "phone_placeholder": "Phone (xxx-xxx-xxxx)",
+        "phone_format_description": "Format: xxx-xxx-xxxx (dashes will be added automatically)",
+        "address_label": "Address",
+        "address_placeholder": "Address",
+        "dietary_needs": "Dietary Needs",
+        "allergies_label": "Food Allergies",
+        "allergies_placeholder": "Please list any food allergies you have.",
+        "restrictions_label": "Dietary Restrictions",
+        "restrictions_placeholder": "Do you follow any specific diets? (e.g., vegetarian, vegan, gluten-free, keto)",
+        "meal_preferences": "Meal Plan Preferences",
+        "meal_types_label": "Meal Types",
+        "breakfast": "Breakfast",
+        "lunch": "Lunch",
+        "dinner": "Dinner",
+        "snack": "Snack",
+        "frequency_label": "Frequency",
+        "weekly": "Weekly",
+        "biweekly": "Bi-weekly",
+        "monthly": "Monthly",
+        "additional_notes": "Additional Notes",
+        "notes_label": "Additional Notes",
+        "notes_placeholder": "Is there anything else we should know about your meal preferences?",
+        "submit": "Submit",
+        "draft_order_success": "Thank you! Your meal plan request has been received.",
+        "error_message": "There was a problem submitting your form. Please try again."
+      }
+    },
     "cart": {
       "cart": "Cart"
     },
