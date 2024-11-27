@@ -288,7 +288,9 @@
         "submit": "Submit Request",
         "draft_order_success": "Thank you! Your meal plan request has been received.",
         "error_message": "There was a problem submitting your form. Please try again.",
-        "post_success": "Thank you for submitting your meal plan request! We'll review your preferences and get back to you soon."
+        "post_success": "Thank you for submitting your meal plan request! We'll review your preferences and get back to you soon.",
+        "title": "Meal Plan Intake Form",
+        "error_heading": "Please adjust the following:"
       }
     },
     "cart": {
