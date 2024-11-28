@@ -87,7 +87,7 @@
 /* Style for meal type checkboxes and radio buttons */
 .meal-types-field fieldset,
 .delivery-frequency-field fieldset {
-  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
+  border: none;
   border-radius: 0.4rem;
   background-color: rgb(var(--color-background));
   padding: 1.5rem;
@@ -102,6 +102,14 @@
   cursor: pointer;
   margin-bottom: 1rem;
   font-size: 1.4rem;
+}
+
+.meal-types-fieldset legend,
+.delivery-frequency-fieldset legend {
+  padding-top: 1rem;
+}
+.delivery-frequency-field label:hover {
+  color: rgb(var(--color-link));
 }
 
 .meal-types-field label:last-child,
