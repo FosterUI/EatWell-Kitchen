@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Get selected delivery frequency
       const deliveryFrequency = document.querySelector('input[name="delivery_frequency"]:checked')?.value;
 
-      // Prepare the data in the format expected by the server
+      // Prepare the data in the format expected by the GraphQL mutation
       const orderData = {
         first_name: formData.get('customer[first_name]'),
         last_name: formData.get('customer[last_name]'),
@@ -58,9 +58,13 @@ document.addEventListener('DOMContentLoaded', function() {
           body: JSON.stringify(orderData)
         });
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Failed to submit form');
+        const data = await response.json();
+        
+        if (data.errors || (data.data && data.data.draftOrderCreate.userErrors.length > 0)) {
+          const errorMessage = data.errors?.[0]?.message || 
+                             data.data?.draftOrderCreate.userErrors[0]?.message ||
+                             'Failed to submit form';
+          throw new Error(errorMessage);
         }
 
         // Show success message
