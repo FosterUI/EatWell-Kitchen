@@ -104,8 +104,8 @@
   font-size: 1.4rem;
 }
 
-.meal-types-fieldset legend,
-.delivery-frequency-fieldset legend {
+.meal-types-field fieldset legend,
+.delivery-frequency-field fieldset legend {
   padding-top: 1rem;
 }
 .delivery-frequency-field label:hover {
