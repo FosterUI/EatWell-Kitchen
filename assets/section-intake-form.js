@@ -22,6 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
     intakeForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
+      // Disable form submission while processing
+      const submitButton = intakeForm.querySelector('button[type="submit"]');
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
+      }
+
       // Remove any existing messages
       const existingMessages = intakeForm.querySelectorAll('.form__message');
       existingMessages.forEach(msg => msg.remove());
@@ -54,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       try {
-        console.log('Sending form data:', orderData); // Debug log
+        console.log('Sending form data:', orderData);
 
         const response = await fetch('http://localhost:3001/create-draft-order', {
           method: 'POST',
@@ -65,8 +72,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         const data = await response.json();
-        console.log('Server response:', data); // Debug log
+        console.log('Server response:', data);
         
+        if (!response.ok) {
+          throw new Error(data.error || 'Server error occurred');
+        }
+
         if (data.error || (data.data && data.data.draftOrderCreate.userErrors.length > 0)) {
           const errorMessage = data.error || 
                              data.data?.draftOrderCreate.userErrors[0]?.message ||
@@ -82,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         successMessage.innerHTML = '<h2>Thank you for submitting your intake form! We will contact you shortly.</h2>';
         intakeForm.insertBefore(successMessage, intakeForm.firstChild);
 
-        // Clear form
+        // Only reset the form after successful submission
         intakeForm.reset();
 
         // Scroll to success message
@@ -97,6 +108,12 @@ document.addEventListener('DOMContentLoaded', function() {
         errorMessage.setAttribute('autofocus', '');
         errorMessage.innerHTML = `<h2>There was an error submitting your form: ${error.message}</h2>`;
         intakeForm.insertBefore(errorMessage, intakeForm.firstChild);
+      } finally {
+        // Re-enable form submission
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Submit';
+        }
       }
     });
   }
