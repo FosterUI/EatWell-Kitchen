@@ -85,18 +85,12 @@
 }
 
 /* Style for meal type checkboxes and radio buttons */
-.meal-types-field,
-.delivery-frequency-field {
-  padding: 1.5rem;
+.meal-types-field fieldset,
+.delivery-frequency-field fieldset {
   border: 0.1rem solid rgba(var(--color-foreground), 0.55);
   border-radius: 0.4rem;
   background-color: rgb(var(--color-background));
-}
-
-.meal-types-field fieldset,
-.delivery-frequency-field fieldset {
-  border: none;
-  padding: 0;
+  padding: 1.5rem;
   margin: 0;
 }
 
