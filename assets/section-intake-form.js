@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     intakeForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
+      // Remove any existing messages
+      const existingMessages = intakeForm.querySelectorAll('.form__message');
+      existingMessages.forEach(msg => msg.remove());
+
       // Disable form submission while processing
       const submitButton = intakeForm.querySelector('button[type="submit"]');
       if (submitButton) {
@@ -29,60 +33,51 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.textContent = 'Submitting...';
       }
 
-      // Remove any existing messages
-      const existingMessages = intakeForm.querySelectorAll('.form__message');
-      existingMessages.forEach(msg => msg.remove());
-
-      const formData = new FormData(intakeForm);
-      
-      // Get selected meal types
-      const mealTypes = [];
-      document.querySelectorAll('input[name="meal_types[]"]:checked').forEach(checkbox => {
-        mealTypes.push(checkbox.value);
-      });
-
-      // Get selected delivery frequency
-      const deliveryFrequency = document.querySelector('input[name="delivery_frequency"]:checked')?.value;
-
-      // Prepare the data in the format expected by the GraphQL mutation
-      const orderData = {
-        first_name: formData.get('customer[first_name]'),
-        last_name: formData.get('customer[last_name]'),
-        email: formData.get('customer[email]'),
-        phone: formData.get('customer[phone]'),
-        address1: formData.get('customer[address1]'),
-        note: {
-          allergies: formData.get('customer[allergies]') || 'None',
-          restrictions: formData.get('customer[restrictions]') || 'None',
-          meal_types: mealTypes,
-          frequency: deliveryFrequency,
-          additional_notes: formData.get('customer[note]') || ''
-        }
-      };
-
       try {
+        const formData = new FormData(intakeForm);
+        
+        // Get selected meal types
+        const mealTypes = [];
+        document.querySelectorAll('input[name="meal_types[]"]:checked').forEach(checkbox => {
+          mealTypes.push(checkbox.value);
+        });
+
+        // Get selected delivery frequency
+        const deliveryFrequency = document.querySelector('input[name="delivery_frequency"]:checked')?.value;
+
+        // Prepare the data
+        const orderData = {
+          first_name: formData.get('customer[first_name]'),
+          last_name: formData.get('customer[last_name]'),
+          email: formData.get('customer[email]'),
+          phone: formData.get('customer[phone]'),
+          address1: formData.get('customer[address1]'),
+          note: {
+            allergies: formData.get('customer[allergies]') || 'None',
+            restrictions: formData.get('customer[restrictions]') || 'None',
+            meal_types: mealTypes,
+            frequency: deliveryFrequency,
+            additional_notes: formData.get('customer[note]') || ''
+          }
+        };
+
         console.log('Sending form data:', orderData);
 
         const response = await fetch('http://localhost:3001/create-draft-order', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
+          credentials: 'include',
           body: JSON.stringify(orderData)
         });
 
         const data = await response.json();
         console.log('Server response:', data);
-        
-        if (!response.ok) {
-          throw new Error(data.error || 'Server error occurred');
-        }
 
-        if (data.error || (data.data && data.data.draftOrderCreate.userErrors.length > 0)) {
-          const errorMessage = data.error || 
-                             data.data?.draftOrderCreate.userErrors[0]?.message ||
-                             'Failed to submit form';
-          throw new Error(errorMessage);
+        if (data.error) {
+          throw new Error(data.error);
         }
 
         // Show success message
@@ -93,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         successMessage.innerHTML = '<h2>Thank you for submitting your intake form! We will contact you shortly.</h2>';
         intakeForm.insertBefore(successMessage, intakeForm.firstChild);
 
-        // Only reset the form after successful submission
+        // Only reset form after successful submission
         intakeForm.reset();
 
         // Scroll to success message

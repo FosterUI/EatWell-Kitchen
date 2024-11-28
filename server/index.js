@@ -4,8 +4,16 @@ const cors = require('cors');
 const fetch = require('node-fetch');
 const app = express();
 
+// CORS configuration
+const corsOptions = {
+  origin: true, // Allow all origins for now
+  credentials: true,
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Accept']
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Test endpoint
@@ -47,7 +55,11 @@ app.post('/create-draft-order', async (req, res) => {
     const { first_name, last_name, email, phone, address1, note } = req.body;
 
     if (!email) {
-      throw new Error('Email is required');
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    if (!process.env.SHOPIFY_SHOP_DOMAIN || !process.env.SHOPIFY_ACCESS_TOKEN) {
+      return res.status(500).json({ error: 'Missing Shopify credentials in environment variables' });
     }
 
     const variables = {
@@ -83,14 +95,9 @@ app.post('/create-draft-order', async (req, res) => {
 
     console.log('GraphQL variables:', JSON.stringify(variables, null, 2));
 
-    if (!process.env.SHOPIFY_SHOP_DOMAIN || !process.env.SHOPIFY_ACCESS_TOKEN) {
-      throw new Error('Missing Shopify credentials in environment variables');
-    }
-
     const shopifyUrl = `https://${process.env.SHOPIFY_SHOP_DOMAIN}/admin/api/2024-01/graphql.json`;
-    console.log('Shopify URL:', shopifyUrl);
+    console.log('Making request to Shopify:', shopifyUrl);
 
-    // Make request to Shopify Admin GraphQL API
     const response = await fetch(shopifyUrl, {
       method: 'POST',
       headers: {
@@ -107,21 +114,32 @@ app.post('/create-draft-order', async (req, res) => {
     console.log('Shopify API response:', JSON.stringify(data, null, 2));
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      return res.status(response.status).json({ 
+        error: `Shopify API error: ${response.statusText}` 
+      });
     }
 
     if (data.errors) {
-      throw new Error(data.errors[0].message);
+      return res.status(400).json({ 
+        error: data.errors[0].message 
+      });
     }
 
     if (data.data.draftOrderCreate.userErrors.length > 0) {
-      throw new Error(data.data.draftOrderCreate.userErrors[0].message);
+      return res.status(400).json({ 
+        error: data.data.draftOrderCreate.userErrors[0].message 
+      });
     }
 
-    res.json(data.data.draftOrderCreate);
+    res.json({ 
+      success: true, 
+      data: data.data.draftOrderCreate 
+    });
   } catch (error) {
     console.error('Error creating draft order:', error);
-    res.status(500).json({ error: error.message || 'Failed to create draft order' });
+    res.status(500).json({ 
+      error: error.message || 'Failed to create draft order' 
+    });
   }
 });
 
