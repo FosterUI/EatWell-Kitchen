@@ -28,6 +28,10 @@
 .intake .field {
   margin-bottom: 1.5rem;
   position: relative;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
+  border-radius: 0.4rem;
+  background-color: rgb(var(--color-background));
+  padding: 1.5rem;
 }
 
 .intake-form__section {
@@ -48,23 +52,21 @@
 
 /* Style for all input fields */
 .intake .field__input {
-  padding: 1.5rem;
-  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
-  border-radius: 0.4rem;
+  padding: 0;
+  border: none;
   width: 100%;
   transition: box-shadow var(--duration-short) ease;
   appearance: none;
   color: rgb(var(--color-foreground));
-  background-color: rgb(var(--color-background));
+  background-color: transparent;
 }
 
 .intake .field__input::placeholder {
-  font-size: 1.2rem;
-  color: rgba(var(--color-foreground), 0.6);
+  color: transparent;
 }
 
 .intake .field__input:focus {
-  box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.55);
+  box-shadow: none;
   outline: 0;
 }
 
@@ -86,10 +88,18 @@
 }
 
 /* Style for meal type checkboxes and radio buttons */
+.meal-types-field,
+.delivery-frequency-field {
+  border: 0.1rem solid rgba(var(--color-foreground), 0.55);
+  border-radius: 0.4rem;
+  background-color: rgb(var(--color-background));
+  padding: 1.5rem;
+}
+
 .meal-types-field fieldset,
 .delivery-frequency-field fieldset {
   border: none;
-  padding: 1.5rem;
+  padding: 0;
   margin: 0;
 }
 
@@ -118,6 +128,10 @@
 .intake textarea {
   min-height: 10rem;
   resize: vertical;
+  padding: 1.5rem;
+  border: none;
+  width: 100%;
+  background-color: transparent;
 }
 
 .intake__button {
@@ -153,9 +167,6 @@
   font-weight: 500;
   margin-bottom: 1.5rem;
   color: rgb(var(--color-foreground));
-  background-color: rgb(var(--color-background));
-  padding: 0 0.5rem;
-  margin: -2.5rem 0 1.5rem 1rem;
 }
 
 /* Full-width field styling */
