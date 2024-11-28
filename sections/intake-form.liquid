@@ -44,7 +44,10 @@
             placeholder=" "
             required
           >
-          <label class="field__label" for="IntakeForm-firstName">{{ 'templates.intake.form.first_name_label' | t }}<span aria-hidden="true">*</span></label>
+          <label class="field__label" for="IntakeForm-firstName">
+            {{- 'templates.intake.form.first_name_label' | t -}}
+            <span aria-hidden="true">*</span></label
+          >
         </div>
 
         <div class="field">
@@ -58,7 +61,10 @@
             placeholder=" "
             required
           >
-          <label class="field__label" for="IntakeForm-lastName">{{ 'templates.intake.form.last_name_label' | t }}<span aria-hidden="true">*</span></label>
+          <label class="field__label" for="IntakeForm-lastName">
+            {{- 'templates.intake.form.last_name_label' | t -}}
+            <span aria-hidden="true">*</span></label
+          >
         </div>
 
         <div class="field">
@@ -72,7 +78,10 @@
             placeholder=" "
             required
           >
-          <label class="field__label" for="IntakeForm-email">{{ 'templates.intake.form.email_label' | t }}<span aria-hidden="true">*</span></label>
+          <label class="field__label" for="IntakeForm-email">
+            {{- 'templates.intake.form.email_label' | t -}}
+            <span aria-hidden="true">*</span></label
+          >
         </div>
 
         <div class="field phone-field">
@@ -87,7 +96,10 @@
             maxlength="12"
             required
           >
-          <label class="field__label" for="IntakeForm-phone">{{ 'templates.intake.form.phone_label' | t }}<span aria-hidden="true">*</span></label>
+          <label class="field__label" for="IntakeForm-phone">
+            {{- 'templates.intake.form.phone_label' | t -}}
+            <span aria-hidden="true">*</span></label
+          >
           <small class="field__description">Format: xxx-xxx-xxxx</small>
         </div>
 
@@ -101,7 +113,10 @@
             placeholder=" "
             required
           >
-          <label class="field__label" for="IntakeForm-address">{{ 'templates.intake.form.address_label' | t }}<span aria-hidden="true">*</span></label>
+          <label class="field__label" for="IntakeForm-address">
+            {{- 'templates.intake.form.address_label' | t -}}
+            <span aria-hidden="true">*</span></label
+          >
         </div>
       </div>
 
@@ -118,7 +133,8 @@
               required
             >{{ form.allergies }}</textarea>
             <label class="form__label field__label" for="IntakeForm-allergies">
-              {{ 'templates.intake.form.allergies_label' | t }}<span aria-hidden="true">*</span>
+              {{ 'templates.intake.form.allergies_label' | t -}}
+              <span aria-hidden="true">*</span>
             </label>
           </div>
 
@@ -132,7 +148,8 @@
               required
             >{{ form.restrictions }}</textarea>
             <label class="form__label field__label" for="IntakeForm-restrictions">
-              {{ 'templates.intake.form.restrictions_label' | t }}<span aria-hidden="true">*</span>
+              {{ 'templates.intake.form.restrictions_label' | t -}}
+              <span aria-hidden="true">*</span>
             </label>
           </div>
         </div>
@@ -143,7 +160,10 @@
         <div class="intake__fields">
           <div class="field field--full meal-types-field">
             <fieldset>
-              <legend>{{ 'templates.intake.form.meal_types_label' | t }}<span aria-hidden="true">*</span></legend>
+              <legend>
+                {{ 'templates.intake.form.meal_types_label' | t -}}
+                <span aria-hidden="true">*</span>
+              </legend>
               <label>
                 <input type="checkbox" name="customer[note][meal_types][]" value="Breakfast">
                 {{ 'templates.intake.form.breakfast' | t }}
@@ -165,7 +185,10 @@
 
           <div class="field field--full delivery-frequency-field">
             <fieldset>
-              <legend>{{ 'templates.intake.form.frequency_label' | t }}<span aria-hidden="true">*</span></legend>
+              <legend>
+                {{ 'templates.intake.form.frequency_label' | t -}}
+                <span aria-hidden="true">*</span>
+              </legend>
               <label>
                 <input type="radio" name="customer[note][frequency]" value="Weekly" required>
                 {{ 'templates.intake.form.weekly' | t }}
