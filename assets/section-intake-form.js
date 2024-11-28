@@ -1,7 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const phoneInput = document.getElementById('IntakeForm-phone');
   if (phoneInput) {
-    phoneInput.addEventListener('input', function(e) {
+    phoneInput.addEventListener('input', function (e) {
       let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
       if (value.length > 0) {
         // Format the number as xxx-xxx-xxxx
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const intakeForm = document.getElementById('IntakeForm');
   if (intakeForm) {
-    intakeForm.addEventListener('submit', async function(e) {
+    intakeForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
       // Remove any existing messages
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       try {
         const formData = new FormData(intakeForm);
-        
+
         // Get selected meal types
         const mealTypes = [];
         document.querySelectorAll('input[name="meal_types[]"]:checked').forEach(checkbox => {
