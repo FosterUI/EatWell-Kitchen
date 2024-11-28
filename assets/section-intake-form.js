@@ -16,4 +16,73 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  const intakeForm = document.getElementById('IntakeForm');
+  if (intakeForm) {
+    intakeForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(intakeForm);
+      
+      // Get selected meal types
+      const mealTypes = [];
+      document.querySelectorAll('input[name="meal_types[]"]:checked').forEach(checkbox => {
+        mealTypes.push(checkbox.value);
+      });
+
+      // Get selected delivery frequency
+      const deliveryFrequency = document.querySelector('input[name="delivery_frequency"]:checked')?.value;
+
+      // Prepare the data in the format expected by the server
+      const orderData = {
+        first_name: formData.get('customer[first_name]'),
+        last_name: formData.get('customer[last_name]'),
+        email: formData.get('customer[email]'),
+        phone: formData.get('customer[phone]'),
+        address1: formData.get('customer[address1]'),
+        note: {
+          allergies: formData.get('customer[allergies]') || 'None',
+          restrictions: formData.get('customer[restrictions]') || 'None',
+          meal_types: mealTypes,
+          frequency: deliveryFrequency,
+          additional_notes: formData.get('customer[note]') || ''
+        }
+      };
+
+      try {
+        const response = await fetch('/create-draft-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orderData)
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Failed to submit form');
+        }
+
+        // Show success message
+        const successMessage = document.createElement('div');
+        successMessage.className = 'form__message';
+        successMessage.innerHTML = '<h2>Thank you for submitting your intake form! We will contact you shortly.</h2>';
+        intakeForm.insertBefore(successMessage, intakeForm.firstChild);
+
+        // Clear form
+        intakeForm.reset();
+
+        // Scroll to success message
+        successMessage.scrollIntoView({ behavior: 'smooth' });
+
+      } catch (error) {
+        console.error('Error:', error);
+        // Show error message
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'form__message';
+        errorMessage.innerHTML = `<h2>There was an error submitting your form: ${error.message}</h2>`;
+        intakeForm.insertBefore(errorMessage, intakeForm.firstChild);
+      }
+    });
+  }
 });
