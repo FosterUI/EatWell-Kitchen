@@ -121,31 +121,31 @@ app.post('/create-draft-order', async (req, res) => {
     console.log('Shopify API response:', JSON.stringify(data, null, 2));
 
     if (!response.ok) {
-      return res.status(response.status).json({ 
-        error: `Shopify API error: ${response.statusText}` 
+      return res.status(response.status).json({
+        error: `Shopify API error: ${response.statusText}`
       });
     }
 
     if (data.errors) {
-      return res.status(400).json({ 
-        error: data.errors[0].message 
+      return res.status(400).json({
+        error: data.errors[0].message
       });
     }
 
     if (data.data.draftOrderCreate.userErrors.length > 0) {
-      return res.status(400).json({ 
-        error: data.data.draftOrderCreate.userErrors[0].message 
+      return res.status(400).json({
+        error: data.data.draftOrderCreate.userErrors[0].message
       });
     }
 
-    res.json({ 
-      success: true, 
-      data: data.data.draftOrderCreate 
+    res.json({
+      success: true,
+      data: data.data.draftOrderCreate
     });
   } catch (error) {
     console.error('Error creating draft order:', error);
-    res.status(500).json({ 
-      error: error.message || 'Failed to create draft order' 
+    res.status(500).json({
+      error: error.message || 'Failed to create draft order'
     });
   }
 });
