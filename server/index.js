@@ -8,6 +8,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Test endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'Server is running!' });
+});
+
+// Test endpoint for draft orders
+app.get('/test-draft-order', (req, res) => {
+  res.json({
+    shopify_domain: process.env.SHOPIFY_SHOP_DOMAIN,
+    has_token: !!process.env.SHOPIFY_ACCESS_TOKEN
+  });
+});
+
 // GraphQL mutation for creating draft order
 const CREATE_DRAFT_ORDER_MUTATION = `
   mutation draftOrderCreate($input: DraftOrderInput!) {
@@ -29,9 +42,13 @@ const CREATE_DRAFT_ORDER_MUTATION = `
 // Create draft order endpoint
 app.post('/create-draft-order', async (req, res) => {
   try {
-    console.log('Received request body:', req.body); // Debug log
+    console.log('Received request body:', JSON.stringify(req.body, null, 2));
 
     const { first_name, last_name, email, phone, address1, note } = req.body;
+
+    if (!email) {
+      throw new Error('Email is required');
+    }
 
     const variables = {
       input: {
@@ -64,10 +81,17 @@ app.post('/create-draft-order', async (req, res) => {
       }
     };
 
-    console.log('GraphQL variables:', JSON.stringify(variables, null, 2)); // Debug log
+    console.log('GraphQL variables:', JSON.stringify(variables, null, 2));
+
+    if (!process.env.SHOPIFY_SHOP_DOMAIN || !process.env.SHOPIFY_ACCESS_TOKEN) {
+      throw new Error('Missing Shopify credentials in environment variables');
+    }
+
+    const shopifyUrl = `https://${process.env.SHOPIFY_SHOP_DOMAIN}/admin/api/2024-01/graphql.json`;
+    console.log('Shopify URL:', shopifyUrl);
 
     // Make request to Shopify Admin GraphQL API
-    const response = await fetch(`https://${process.env.SHOPIFY_SHOP_DOMAIN}/admin/api/2024-01/graphql.json`, {
+    const response = await fetch(shopifyUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -80,7 +104,11 @@ app.post('/create-draft-order', async (req, res) => {
     });
 
     const data = await response.json();
-    console.log('Shopify API response:', JSON.stringify(data, null, 2)); // Debug log
+    console.log('Shopify API response:', JSON.stringify(data, null, 2));
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     if (data.errors) {
       throw new Error(data.errors[0].message);
@@ -100,4 +128,7 @@ app.post('/create-draft-order', async (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log('Environment variables:');
+  console.log('- SHOPIFY_SHOP_DOMAIN:', process.env.SHOPIFY_SHOP_DOMAIN ? '✓ Set' : '✗ Missing');
+  console.log('- SHOPIFY_ACCESS_TOKEN:', process.env.SHOPIFY_ACCESS_TOKEN ? '✓ Set' : '✗ Missing');
 });
