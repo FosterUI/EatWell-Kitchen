@@ -70,18 +70,25 @@ app.post('/create-draft-order', async (req, res) => {
           quantity: 1
         }],
         email,
-        note: JSON.stringify({
-          allergies: note.allergies || 'None',
-          restrictions: note.restrictions || 'None',
-          meal_types: note.meal_types || [],
-          frequency: note.frequency || 'Not specified',
-          additional_notes: note.additional_notes || ''
-        }),
+        phone,
+        customer: {
+          firstName: first_name,
+          lastName: last_name,
+          email,
+          phone
+        },
+        note: [
+          `Food Allergies: ${note.allergies}`,
+          `Dietary Restrictions: ${note.restrictions}`,
+          `Selected Meal Types: ${note.meal_types.join(", ")}`,
+          `Delivery Frequency: ${note.frequency}`,
+          `Additional Notes: ${note.additional_notes}`
+        ].join("\n"),
         customAttributes: [
-          { key: "Food Allergies", value: note.allergies || 'None' },
-          { key: "Dietary Restrictions", value: note.restrictions || 'None' },
-          { key: "Meal Types", value: (note.meal_types || []).join(", ") || 'None selected' },
-          { key: "Frequency", value: note.frequency || 'Not specified' },
+          { key: "Food Allergies", value: note.allergies },
+          { key: "Dietary Restrictions", value: note.restrictions },
+          { key: "Meal Types", value: note.meal_types.join(", ") },
+          { key: "Frequency", value: note.frequency },
           { key: "Additional Notes", value: note.additional_notes || 'None' }
         ],
         shippingAddress: {

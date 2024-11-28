@@ -47,19 +47,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Prepare the data
         const orderData = {
-          first_name: formData.get('customer[first_name]'),
-          last_name: formData.get('customer[last_name]'),
-          email: formData.get('customer[email]'),
-          phone: formData.get('customer[phone]'),
-          address1: formData.get('customer[address1]'),
+          first_name: formData.get('customer[first_name]')?.trim(),
+          last_name: formData.get('customer[last_name]')?.trim(),
+          email: formData.get('customer[email]')?.trim(),
+          phone: formData.get('customer[phone]')?.trim(),
+          address1: formData.get('customer[address1]')?.trim(),
           note: {
-            allergies: formData.get('customer[allergies]') || 'None',
-            restrictions: formData.get('customer[restrictions]') || 'None',
-            meal_types: mealTypes,
-            frequency: deliveryFrequency,
-            additional_notes: formData.get('customer[note]') || ''
+            allergies: formData.get('customer[allergies]')?.trim() || 'None',
+            restrictions: formData.get('customer[restrictions]')?.trim() || 'None',
+            meal_types: mealTypes.length > 0 ? mealTypes : ['None selected'],
+            frequency: deliveryFrequency || 'Not specified',
+            additional_notes: formData.get('customer[note]')?.trim() || 'None'
           }
         };
+
+        // Validate required fields
+        if (!orderData.email) {
+          throw new Error('Email is required');
+        }
 
         console.log('Sending form data:', orderData);
 
@@ -80,19 +85,22 @@ document.addEventListener('DOMContentLoaded', function() {
           throw new Error(data.error);
         }
 
-        // Show success message
+        // Show success message and scroll into view
         const successMessage = document.createElement('div');
-        successMessage.className = 'form__message';
+        successMessage.className = 'form__message form__message--success';
         successMessage.setAttribute('tabindex', '-1');
         successMessage.setAttribute('autofocus', '');
-        successMessage.innerHTML = '<h2>Thank you for submitting your intake form! We will contact you shortly.</h2>';
+        successMessage.innerHTML = `
+          <div class="form__message-content">
+            <h2>Thank you for submitting your intake form!</h2>
+            <p>We have received your information and will contact you shortly to discuss your custom meal plan.</p>
+          </div>
+        `;
         intakeForm.insertBefore(successMessage, intakeForm.firstChild);
+        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         // Only reset form after successful submission
         intakeForm.reset();
-
-        // Scroll to success message
-        successMessage.scrollIntoView({ behavior: 'smooth' });
 
       } catch (error) {
         console.error('Error:', error);
