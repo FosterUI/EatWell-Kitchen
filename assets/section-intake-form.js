@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     intakeForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
+      // Remove any existing messages
+      const existingMessages = intakeForm.querySelectorAll('.form__message');
+      existingMessages.forEach(msg => msg.remove());
+
       const formData = new FormData(intakeForm);
       
       // Get selected meal types
@@ -50,7 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       try {
-        const response = await fetch('/create-draft-order', {
+        console.log('Sending form data:', orderData); // Debug log
+
+        const response = await fetch('http://localhost:3001/create-draft-order', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -59,9 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         const data = await response.json();
+        console.log('Server response:', data); // Debug log
         
-        if (data.errors || (data.data && data.data.draftOrderCreate.userErrors.length > 0)) {
-          const errorMessage = data.errors?.[0]?.message || 
+        if (data.error || (data.data && data.data.draftOrderCreate.userErrors.length > 0)) {
+          const errorMessage = data.error || 
                              data.data?.draftOrderCreate.userErrors[0]?.message ||
                              'Failed to submit form';
           throw new Error(errorMessage);
@@ -70,6 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show success message
         const successMessage = document.createElement('div');
         successMessage.className = 'form__message';
+        successMessage.setAttribute('tabindex', '-1');
+        successMessage.setAttribute('autofocus', '');
         successMessage.innerHTML = '<h2>Thank you for submitting your intake form! We will contact you shortly.</h2>';
         intakeForm.insertBefore(successMessage, intakeForm.firstChild);
 
@@ -84,6 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show error message
         const errorMessage = document.createElement('div');
         errorMessage.className = 'form__message';
+        errorMessage.setAttribute('tabindex', '-1');
+        errorMessage.setAttribute('autofocus', '');
         errorMessage.innerHTML = `<h2>There was an error submitting your form: ${error.message}</h2>`;
         intakeForm.insertBefore(errorMessage, intakeForm.firstChild);
       }

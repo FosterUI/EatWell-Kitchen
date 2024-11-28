@@ -29,6 +29,8 @@ const CREATE_DRAFT_ORDER_MUTATION = `
 // Create draft order endpoint
 app.post('/create-draft-order', async (req, res) => {
   try {
+    console.log('Received request body:', req.body); // Debug log
+
     const { first_name, last_name, email, phone, address1, note } = req.body;
 
     const variables = {
@@ -62,6 +64,8 @@ app.post('/create-draft-order', async (req, res) => {
       }
     };
 
+    console.log('GraphQL variables:', JSON.stringify(variables, null, 2)); // Debug log
+
     // Make request to Shopify Admin GraphQL API
     const response = await fetch(`https://${process.env.SHOPIFY_SHOP_DOMAIN}/admin/api/2024-01/graphql.json`, {
       method: 'POST',
@@ -76,6 +80,7 @@ app.post('/create-draft-order', async (req, res) => {
     });
 
     const data = await response.json();
+    console.log('Shopify API response:', JSON.stringify(data, null, 2)); // Debug log
 
     if (data.errors) {
       throw new Error(data.errors[0].message);
